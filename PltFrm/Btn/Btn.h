@@ -39,7 +39,7 @@ public:
         nrOfBtns
     };
 
-    enum{ nrOfEvHandlers = 1 };
+    enum{ nrOfEvHandlers = 2 };
 
     Btn( const BtnInstance& btn );
 	virtual ~Btn();

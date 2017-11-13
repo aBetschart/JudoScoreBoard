@@ -5,6 +5,9 @@
 //  Original author: Aaron
 ///////////////////////////////////////////////////////////
 
+//--------------------------------------------------------------
+// -- includes
+//--------------------------------------------------------------
 #include "TimeTick.h"
 
 #include<cassert>
@@ -12,7 +15,12 @@
 
 #include "../../Hal/Clk/Clk.h"
 #include "../../EvHandler/ITimeTickEvHandler.h"
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
+// -- variables
+//--------------------------------------------------------------
 static const Hal::Timer::TimerInit timerInit[PltFrm::TimeTick::nrOfTimeTicks] =
 {
 /*mainTimeTick*/  {Hal::Timer::timer0, Hal::Timer::subTimerA, true,  Hal::Timer::periodic, Hal::Timer::up},
@@ -25,12 +33,15 @@ static const uint16_t msInterval[PltFrm::TimeTick::nrOfTimeTicks] =
 {
  1000, 1000, 300, 300
 };
+//--------------------------------------------------------------
+
 
 namespace PltFrm
 {
 
 TimeTick::TimeTick* TimeTick::instance[TimeTick::nrOfTimeTicks] = {0};
 
+//--------------------------------------------------------------
 TimeTick::TimeTick( const TimeTickInstance& t ):
 mInst( t ), mTimer( timerInit[t] )
 {
@@ -51,24 +62,34 @@ mInst( t ), mTimer( timerInit[t] )
 
     mTimer.setModuleIr( true );
 }
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
 TimeTick::~TimeTick()
 {
     instance[mInst] = 0;
 }
+//--------------------------------------------------------------
 
 
+//--------------------------------------------------------------
 void TimeTick::enable()
 {
     mTimer.start();
 }
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
 void TimeTick::disable()
 {
     mTimer.stop();
 }
+//--------------------------------------------------------------
 
 
+//--------------------------------------------------------------
 void TimeTick::registerOnEv( ITimeTickEvHandler* handler )
 {
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
@@ -77,19 +98,28 @@ void TimeTick::registerOnEv( ITimeTickEvHandler* handler )
             evHandler[i] = handler;
     }
 }
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
 void TimeTick::onTimerEv(const Hal::Timer::Timer& timer,
                          const Hal::Timer::TimerEv ev)
 {
     if( (ev == Hal::Timer::evTimeOut) && (mTimer == timer) )
         notify();
 }
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
 PltFrm::TimeTick::TimeTickInstance TimeTick::getInstance()
 {
     return mInst;
 }
+//--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
 void TimeTick::notify()
 {
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
@@ -98,5 +128,5 @@ void TimeTick::notify()
             evHandler[i]->onTimeTickEv( mInst );
     }
 }
-
+//--------------------------------------------------------------
 } /* namespace PltFrm*/

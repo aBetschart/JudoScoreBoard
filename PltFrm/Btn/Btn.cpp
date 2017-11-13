@@ -103,7 +103,10 @@ void Btn::registerOnEv(IBtnEvHandler* handler)
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
     {
         if( evHandler[i] == 0 )
+        {
             evHandler[i] = handler;
+            break;
+        }
     }
 }
 //--------------------------------------------------------------

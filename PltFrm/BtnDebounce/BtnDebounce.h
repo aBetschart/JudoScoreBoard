@@ -16,7 +16,6 @@
 namespace PltFrm
 {
 
-template<int nrOfBtns = 1>
 class BtnDebounce : public IBtnEvHandler, public ITimeTickEvHandler
 {
 
@@ -27,6 +26,8 @@ public:
 	void registerBtn( PltFrm::Btn* btn );
 	virtual void onButtonEv( const PltFrm::Btn::BtnInstance& btn );
 	virtual void onTimeTickEv( const PltFrm::TimeTick::TimeTickInstance& inst );
+
+	enum { nrOfBtns = 5 };
 
 private:
 	PltFrm::Btn* mBtn[nrOfBtns];

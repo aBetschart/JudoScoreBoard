@@ -32,6 +32,8 @@ public:
         tt.registerOnEv(this);
         btn0.registerOnEv(this);
 
+        btnDeb.registerBtn( &btn0 );
+
         tt.enable();
         btn0.enable();
     }
@@ -53,7 +55,7 @@ public:
     }
 
 private:
-    PltFrm::BtnDebounce<1> btnDeb;
+    PltFrm::BtnDebounce btnDeb;
     PltFrm::TimeTick tt;
     PltFrm::Btn btn0;
     PltFrm::Led led0;
