@@ -20,13 +20,14 @@ public:
 
     enum LedInstance
     {
-        led0,
-        led1,
+        gldnScrLed,
+        winnerLed,
+        fightOverLed,
+        timeLed,
         nrOfLeds
     };
 	Led( const LedInstance& inst );
 	virtual ~Led();
-
 
 	void turnOff();
 	void turnOn();

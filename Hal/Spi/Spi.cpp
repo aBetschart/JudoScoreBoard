@@ -181,12 +181,12 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
         if( init.direction == transmit )
         {
             // init Rx-Pin
-            Gpio recPin( Gpio::portF, Gpio::pin1, Gpio::dig14 );
+            Gpio traPin( Gpio::portF, Gpio::pin1, Gpio::dig14 );
         }
         else
         {
             // init Tx-Pin
-            Gpio traPin( Gpio::portF, Gpio::pin0, Gpio::dig14 );
+            Gpio recPin( Gpio::portF, Gpio::pin0, Gpio::dig14 );
         }
         break;
     }
@@ -201,11 +201,15 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     else
         ctrlReg1->clearBits(0x4);
 
+    // disable hold frame (pulse fss after every byte
+    //ctrlReg1->setBits( 0x0400 );
+
     // setting the prescaler-value
     clkPrescReg->clearBits(0xFF);
     clkPrescReg->setBits(init.cpsvdr);
 
     // setting sumScale
+    ctrlReg0->clearBits( 0xFF << 8 );
     ctrlReg0->setBits( init.scr << 8 );
 
     // setting clock phase
@@ -226,19 +230,20 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     ctrlReg0->clearBits(0x30);
 
     // adjust datasize
+    uint8_t dSiz = init.dataSize - 1;
     ctrlReg0->clearBits(0xF);
 
-    if( init.dataSize < 0x3 )
+    if( dSiz < 0x3 )
     {
         ctrlReg0->setBits(0x3);
     }
-    else if( init.dataSize > 0xF )
+    else if( dSiz > 0xF )
     {
         ctrlReg0->setBits(0xF);
     }
     else
     {
-        ctrlReg0->setBits(init.dataSize);
+        ctrlReg0->setBits( dSiz );
     }
 
     if( mDir == receive )
@@ -394,8 +399,8 @@ void Spi::checkIrStatus(const SpiInstance& inst)
         {
             if( irStatReg->checkBits( irBitMask[i] ) )
             {
-                instance[inst]->notify( static_cast<SpiEv>(i) );
                 irClearReg->setBits(irClearBitMask[i]);
+                instance[inst]->notify( static_cast<SpiEv>(i) );
             }
         }
     }

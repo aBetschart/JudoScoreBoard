@@ -24,8 +24,11 @@ public:
     {
         mainTimeTick,  // 1 s
         osaekTimeTick, // 1 s
+        displayTick,   // 1 s
         scoreBtnTick,  // 300 ms
         timeBtnTick,   // 300 ms
+        osaekBtnTick,  // 300 ms
+        ledStripeTick, // 400 us
         nrOfTimeTicks
     };
 
@@ -39,9 +42,10 @@ public:
 
 	TimeTickInstance getInstance();
 
-	virtual void onTimerEv( const Hal::Timer::Timer& timer,
-                            const Hal::Timer::TimerEv ev );
 	void registerOnEv( ITimeTickEvHandler* handler );
+
+	virtual void onTimerEv( const Hal::Timer::Timer& timer,
+	                        const Hal::Timer::TimerEv ev );
 
 protected:
 	void notify();
@@ -49,13 +53,14 @@ protected:
 private:
 
 	TimeTickInstance mInst;
+    Hal::Timer mTimer;
 
 	static TimeTick* instance[nrOfTimeTicks];
 
-	Hal::Timer mTimer;
 	ITimeTickEvHandler* evHandler[nrOfEvHandlers];
 
 };
 
 } /* namespace PltFrm*/
+
 #endif // !defined(EA_827A203B_1849_40e3_B09A_A1FB64B0B711__INCLUDED_)

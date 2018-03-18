@@ -19,12 +19,12 @@ class TestClass: public IBtnEvHandler, public ITimeTickEvHandler
 {
 public:
     TestClass():
-        btnDeb( PltFrm::TimeTick::timeBtnTick ),
+        btnDeb( PltFrm::TimeTick::ledStripeTick ),
         ena( true ),
-        tt( PltFrm::TimeTick::scoreBtnTick ),
+        tt( PltFrm::TimeTick::displayTick ),
         btn0( PltFrm::Btn::ipponBlBtn ),
-        led0( PltFrm::Led::led0 ),
-        led1( PltFrm::Led::led1 )
+        led0( PltFrm::Led::winnerLed ),
+        led1( PltFrm::Led::fightOverLed )
     {
         led0.turnOn();
         led1.turnOn();

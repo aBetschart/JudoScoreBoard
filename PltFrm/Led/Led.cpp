@@ -16,28 +16,16 @@ Led::Led* Led::instance[Led::nrOfLeds] = {0};
 
 static const Hal::Gpio::GpioInit gpioInit[Led::nrOfLeds] =
 {
-/*led0*/  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin0, Hal::Gpio::noResistor, false},
-/*led1*/  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin1, Hal::Gpio::noResistor, false}
+/* gldnScrLed   */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin0, Hal::Gpio::noResistor, false},
+/* winnerLed    */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin1, Hal::Gpio::noResistor, false},
+/* fightOverLed */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin2, Hal::Gpio::noResistor, false},
+/* TimeLed      */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin3, Hal::Gpio::noResistor, false}
 };
 
 Led::Led( const LedInstance& inst ): mInst(inst), mGpio( gpioInit[inst] )
 {
     assert( instance[mInst] == 0 );
     instance[mInst] = this;
-
-    switch( mInst )
-    {
-    case led0:
-        mGpio.setDriveStrength( Hal::Gpio::ma8 );
-        break;
-
-    case led1:
-        mGpio.setDriveStrength( Hal::Gpio::ma8 );
-        break;
-
-    default:
-        break;
-    }
 }
 
 

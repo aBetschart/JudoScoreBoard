@@ -70,9 +70,7 @@ public:
      * cpsvdr = [2, 4, 6, ..., 254]
      * scr    = [1:256]
      *
-     * dataSize = [3, 4, ..., 15]
-     * But the actual data size is equal dataSize + 1.
-     * E.g. dataSize = 3, actual data Size = 4
+     * dataSize = [4, 5, ..., 16]
      */
     struct SpiInit
     {
@@ -84,7 +82,7 @@ public:
         bool            enaFss; // low during transmission
         bool            spo; // clock polarity
         bool            sph; // clock phase
-        uint8_t         dataSize; // dataSize = [3, 4, ..., 15]
+        uint8_t         dataSize; // dataSize = [4, 5, ..., 16]
         bool            enaIr; // enable interrupt or not
     };
 
@@ -92,7 +90,10 @@ public:
      * Number of handlers that can be registered on interrupts
      * of one interface
      */
-    enum{ nrOfEvHandlers = 5 };
+    enum{
+        nrOfEvHandlers = 5,
+        fifoSize = 8
+    };
 
     /**
      * @brief   Constructor

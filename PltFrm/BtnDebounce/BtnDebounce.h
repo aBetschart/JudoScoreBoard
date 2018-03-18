@@ -27,7 +27,7 @@ public:
 	virtual void onButtonEv( const PltFrm::Btn::BtnInstance& btn );
 	virtual void onTimeTickEv( const PltFrm::TimeTick::TimeTickInstance& inst );
 
-	enum { nrOfBtns = 5 };
+	enum { nrOfBtns = 6 };
 
 private:
 	PltFrm::Btn* mBtn[nrOfBtns];

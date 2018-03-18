@@ -5,18 +5,23 @@
 //  Original author: Aaron
 ///////////////////////////////////////////////////////////
 
+//--------------------------------------------------------------
+// -- includes
+//--------------------------------------------------------------
 #include "Btn.h"
 
 #include <cassert>
 
 #include "../../EvHandler/IBtnEvHandler.h"
+//--------------------------------------------------------------
 
-namespace PltFrm
-{
 
-Btn::Btn* Btn::instance[Btn::nrOfBtns] = {0};
+//--------------------------------------------------------------
+// -- variables
+//--------------------------------------------------------------
+PltFrm::Btn::Btn* PltFrm::Btn::instance[PltFrm::Btn::nrOfBtns] = {0};
 
-static const Hal::Gpio::GpioInit gpioInit[Btn::nrOfBtns] =
+static const Hal::Gpio::GpioInit gpioInit[PltFrm::Btn::nrOfBtns] =
 {
 /*ipponBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portJ, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
 /*wazariBlBtn*/ {Hal::Gpio::dirInput, Hal::Gpio::portJ, Hal::Gpio::pin1, Hal::Gpio::pullUpRes, false},
@@ -32,7 +37,10 @@ static const Hal::Gpio::GpioInit gpioInit[Btn::nrOfBtns] =
 /*osaekWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
 /*osaekBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false}
 };
+//--------------------------------------------------------------
 
+namespace PltFrm
+{
 //--------------------------------------------------------------
 Btn::Btn( const BtnInstance& btn ): mInst( btn ), mGpio( gpioInit[btn] )
 {

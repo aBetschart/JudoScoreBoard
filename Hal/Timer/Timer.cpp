@@ -181,7 +181,6 @@ Timer::Timer( const TimerInit& init ): mInst( init.inst ),
         evHandler[i] = 0;
 
     Rcgc::enaTimerModule( mInst );
-    HwRegister<uint8_t>* cfgReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x000 )) Hal::HwRegister<uint8_t>;
     ctrlReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x00C )) Hal::HwRegister<uint16_t>;
 
     // initialization of the timer
@@ -240,7 +239,7 @@ void Timer::start()
 {
     if( isConcat )
     {
-        ctrlReg->setBits(0x0101);
+        ctrlReg->setBits(0x0001);
     }
     else if ( mSubInst == subTimerA )
     {
@@ -505,7 +504,11 @@ void Timer::setModuleIr(const bool& on)
     if( this->isConcatenated() || (mSubInst == subTimerA ))
     {
         if( on )
+        {
+            HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x024 )) Hal::HwRegister<uint16_t>;
+            irClearReg->clearBits( 0x3F3F );
             Nvic::enableIr( irInst[mInst][subTimerA] );
+        }
         else
             Nvic::disableIr( irInst[mInst][subTimerA] );
     }
@@ -618,9 +621,6 @@ void Timer::checkIrStatus( const TimerInstance& inst,
     HwRegister<uint16_t>* irStatReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x020 )) Hal::HwRegister<uint16_t>;
     HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x024 )) Hal::HwRegister<uint16_t>;
 
-    if( instance[inst][subInst] == 0 )
-        return;
-
     if( instance[inst][subInst]->isConcatenated() ||
             (subInst == subTimerA) )
     {
@@ -628,7 +628,9 @@ void Timer::checkIrStatus( const TimerInstance& inst,
         {
             if( irStatReg->checkBits( irBitMask[i] ) )
             {
-                instance[inst][subTimerA]->notify( static_cast<TimerEv>(i) );
+                if( instance[inst][subInst] != 0 )
+                    instance[inst][subTimerA]->notify( static_cast<TimerEv>(i) );
+
                 irClearReg->setBits(irBitMask[i]);
             }
         }

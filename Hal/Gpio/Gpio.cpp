@@ -171,7 +171,16 @@ Gpio::Gpio(const GpioPort& port, const GpioPinNr& pin, const GpioFunc& f):
 //--------------------------------------------------------------
 Gpio::~Gpio()
 {
-    instance[mPort][mBit] = 0;
+	int mPin = 0;
+	
+	while( mBit != 0x01 )
+	{
+	    mPin++;
+	    mBit = mBit >> 1;
+	}
+
+	
+    instance[mPort][mPin] = 0;
 }
 //--------------------------------------------------------------
 
@@ -186,9 +195,21 @@ void Gpio::setSpecialFunc(const GpioFunc& f)
 
     if( f != noSpecFunc ) // Special function requested
     {
+        int bitNr = 0;
+        int i = mBit;
+
+        while( i != 0x01 )
+        {
+            i = i >> 1;
+            bitNr++;
+        }
+
+
+        uint8_t shiftVal = bitNr*4;
+
         afSelReg->setBits( mBit );
-        ctlReg->clearBits( 0x0000000F << mBit );
-        ctlReg->setBits( f << mBit );
+        ctlReg->clearBits( 0x0000000F << shiftVal );
+        ctlReg->setBits( f << shiftVal );
         if( f == analogFunc )
         {
             denReg->clearBits(mBit);

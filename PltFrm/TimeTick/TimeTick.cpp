@@ -25,13 +25,22 @@ static const Hal::Timer::TimerInit timerInit[PltFrm::TimeTick::nrOfTimeTicks] =
 {
 /*mainTimeTick*/  {Hal::Timer::timer0, Hal::Timer::subTimerA, true,  Hal::Timer::periodic, Hal::Timer::up},
 /*osaekTimeTick*/ {Hal::Timer::timer1, Hal::Timer::subTimerA, true,  Hal::Timer::periodic, Hal::Timer::up},
+/*DisplayTick*/   {Hal::Timer::timer5, Hal::Timer::subTimerA, true,  Hal::Timer::periodic, Hal::Timer::up},
 /*scoreBtnTick*/  {Hal::Timer::timer2, Hal::Timer::subTimerA, false, Hal::Timer::periodic, Hal::Timer::up},
-/*timeBtnTick*/   {Hal::Timer::timer2, Hal::Timer::subTimerB, false, Hal::Timer::periodic, Hal::Timer::up}
+/*timeBtnTick*/   {Hal::Timer::timer2, Hal::Timer::subTimerB, false, Hal::Timer::periodic, Hal::Timer::up},
+/*osaekBtnTick*/  {Hal::Timer::timer4, Hal::Timer::subTimerA, false, Hal::Timer::periodic, Hal::Timer::up},
+/*ledStripeTick*/ {Hal::Timer::timer4, Hal::Timer::subTimerB, false, Hal::Timer::periodic, Hal::Timer::up}
 };
 
-static const uint16_t msInterval[PltFrm::TimeTick::nrOfTimeTicks] =
+static const uint32_t usInterval[PltFrm::TimeTick::nrOfTimeTicks] =
 {
- 1000, 1000, 300, 300
+ /*mainTimeTick*/   1000000,
+ /*osaekTimeTick*/  1000000,
+ /*displayTick*/    1000000,
+ /*scoreBtnTick*/    300000,
+ /*timeBtnTick*/     300000,
+ /*osaekBtnTick*/    300000,
+ /*ledStripeTick*/      400
 };
 //--------------------------------------------------------------
 
@@ -55,8 +64,8 @@ mInst( t ), mTimer( timerInit[t] )
     mTimer.enableIr( Hal::Timer::evTimeOut );
 
     // set interval border
-    uint32_t interval = Hal::Clk::getClkFreq()/1000;
-    interval *= msInterval[mInst];
+    uint32_t interval = Hal::Clk::getClkFreq()/1000000;
+    interval *= usInterval[mInst];
     interval--; // because it begins to count at zero
     mTimer.setIntervalBorder( interval );
 
@@ -95,7 +104,10 @@ void TimeTick::registerOnEv( ITimeTickEvHandler* handler )
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
     {
         if( evHandler[i] == 0 )
+        {
             evHandler[i] = handler;
+            break;
+        }
     }
 }
 //--------------------------------------------------------------
