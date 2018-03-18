@@ -25,12 +25,13 @@ namespace Obj
 //--------------------------------------------------------------
 MainTime::MainTime( JudoDisplay* displ ):
         mTimeTick( mTickInst ), mDir( down ),
-        mDispl( displ ), Time( secInit, minInit )
+        mDispl( displ ), Time( minInit, secInit )
 {
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
         evHandler[i] = 0;
 
     mTimeTick.disable();
+    mTimeTick.registerOnEv(this);
 
     mDispl->setMainTimeDigits( *this );
 }

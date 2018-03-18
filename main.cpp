@@ -5,6 +5,7 @@
 
 #include "Obj/JudoDisplay/JudoDisplay.h"
 #include "Obj/OsaekTime/OsaekTime.h"
+#include "Obj/mainTime/mainTime.h"
 #include "Obj/Judo.h"
 
 int main(void)
@@ -21,11 +22,13 @@ int main(void)
 
     Obj::JudoDisplay displ;
     Obj::OsaekTime osaekTime(&displ);
+    Obj::MainTime mainTime(&displ);
 
     displ.setScoreDigits(blue, score[0]);
     displ.setScoreDigits(white, score[1]);
 
     osaekTime.start();
+    mainTime.start();
 
     while(1);
 }
