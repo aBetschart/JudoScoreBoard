@@ -23,19 +23,19 @@ PltFrm::Btn::Btn* PltFrm::Btn::instance[PltFrm::Btn::nrOfBtns] = {0};
 
 static const Hal::Gpio::GpioInit gpioInit[PltFrm::Btn::nrOfBtns] =
 {
-/*ipponBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portJ, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
-/*wazariBlBtn*/ {Hal::Gpio::dirInput, Hal::Gpio::portJ, Hal::Gpio::pin1, Hal::Gpio::pullUpRes, false},
-/*shidoBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
+/*ipponBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin7, Hal::Gpio::pullUpRes, false},
+/*wazariBlBtn*/ {Hal::Gpio::dirInput, Hal::Gpio::portP, Hal::Gpio::pin3, Hal::Gpio::pullUpRes, false},
+/*shidoBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portQ, Hal::Gpio::pin1, Hal::Gpio::pullUpRes, false},
 
-/*ipponWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
-/*wazariWhBtn*/ {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
-/*shidoWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
+/*ipponWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portM, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
+/*wazariWhBtn*/ {Hal::Gpio::dirInput, Hal::Gpio::portH, Hal::Gpio::pin1, Hal::Gpio::pullUpRes, false},
+/*shidoWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portK, Hal::Gpio::pin6, Hal::Gpio::pullUpRes, false},
 
-/*startBtn*/    {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
-/*stopBtn*/     {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
+/*startBtn*/    {Hal::Gpio::dirInput, Hal::Gpio::portM, Hal::Gpio::pin7, Hal::Gpio::pullUpRes, false},
+/*stopBtn*/     {Hal::Gpio::dirInput, Hal::Gpio::portP, Hal::Gpio::pin5, Hal::Gpio::pullUpRes, false},
 
-/*osaekWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false},
-/*osaekBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::pullUpRes, false}
+/*osaekBlBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portM, Hal::Gpio::pin6, Hal::Gpio::pullUpRes, false},
+/*osaekWhBtn*/  {Hal::Gpio::dirInput, Hal::Gpio::portK, Hal::Gpio::pin7, Hal::Gpio::pullUpRes, false}
 };
 //--------------------------------------------------------------
 
