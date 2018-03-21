@@ -51,32 +51,6 @@ Btn::Btn( const BtnInstance& btn ): mInst( btn ), mGpio( gpioInit[btn] )
 
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
         evHandler[i] = 0;
-
-    switch( mInst )
-    {
-    case ipponBlBtn:
-        break;
-    case wazariBlBtn:
-        break;
-    case shidoBlBtn:
-        break;
-    case ipponWhBtn:
-        break;
-    case wazariWhBtn:
-        break;
-    case shidoWhBtn:
-        break;
-    case startBtn:
-        break;
-    case stopBtn:
-        break;
-    case osaekBlBtn:
-        break;
-    case osaekWhBtn:
-        break;
-    default:
-        break;
-    }
 }
 //--------------------------------------------------------------
 

@@ -21,7 +21,7 @@ PltFrm::Switch::Switch* PltFrm::Switch::instance[PltFrm::Switch::nrOfSwitches] =
 
 static const Hal::Gpio::GpioInit gpioInit[PltFrm::Switch::nrOfSwitches] =
 {
-/* scoreSwitch */  {Hal::Gpio::dirInput, Hal::Gpio::portA, Hal::Gpio::pin0, Hal::Gpio::noResistor, false}
+/* scoreSwitch */  {Hal::Gpio::dirInput, Hal::Gpio::portD, Hal::Gpio::pin2, Hal::Gpio::pullUpRes, false}
 };
 //--------------------------------------------------------------
 
