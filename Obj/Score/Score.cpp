@@ -21,6 +21,18 @@
 //--------------------------------------------------------------
 
 
+//--------------------------------------------------------------
+// -- enums
+//--------------------------------------------------------------
+enum Scoring
+{
+    shido,
+    wazari,
+    ippon
+};
+//--------------------------------------------------------------
+
+
 namespace Obj
 {
 //--------------------------------------------------------------
@@ -92,7 +104,7 @@ Score::~Score()
 bool Score::equalScore()
 {
     if( !hasWinner() )
-        return( score[blue].wazari == score[white].wazari );
+        return( score[blue].wazari && score[white].wazari );
     else
         return false;
 }
@@ -148,41 +160,101 @@ void Score::onButtonEv(const PltFrm::Btn::BtnInstance& btn)
     if( !locked )
     {
         bool swState = scoreSw.isSet();
+        FighterColour scoreCol;
+        FighterColour otherCol;
+        Scoring actScore;
 
         switch( btn )
         {
-
         // blue buttons
         case PltFrm::Btn::ipponBlBtn:
+            scoreCol = blue;
+            otherCol = white;
+            actScore = ippon;
+            break;
+        case PltFrm::Btn::wazariBlBtn:
+            scoreCol = blue;
+            otherCol = white;
+            actScore = wazari;
+            break;
+        case PltFrm::Btn::shidoBlBtn:
+            scoreCol = blue;
+            otherCol = white;
+            actScore = shido;
+            break;
+            // white buttons
+        case PltFrm::Btn::ipponWhBtn:
+            scoreCol = white;
+            otherCol = blue;
+            actScore = ippon;
+            break;
+        case PltFrm::Btn::wazariWhBtn:
+            scoreCol = white;
+            otherCol = blue;
+            actScore = wazari;
+            break;
+        case PltFrm::Btn::shidoWhBtn:
+            scoreCol = white;
+            otherCol = blue;
+            actScore = shido;
+        default:
+            break;
+        }
+
+        switch( actScore )
+        {
+        case ippon:
             if( swState )
-            { // set ippon
+            {
                 if( !hasWinner() )
                 {
-                    score[blue].ippon = true;
+                    score[scoreCol].ippon = true;
                     notify( evIppon );
                 }
             }
             else
-            { // unset ippon
-                score[blue].ippon = false;
-                notify( evIpponDel );
+            {
+                if( score[scoreCol].ippon )
+                {
+                    score[scoreCol].ippon = false;
+                    notify( evIpponDel );
+                }
             }
             break;
-        case PltFrm::Btn::wazariBlBtn:
+        case wazari:
         {
             bool scoreState = equalScore();
 
             if( swState )
-            { // add wazari
-                score[blue].wazari++;
-                score[blue].wazari = score[blue].wazari % maxWazari;
+            {
+                if( score[scoreCol].wazari )
+                {
+                    if( !score[otherCol].ippon )
+                    {
+                        score[scoreCol].ippon  = true;
+                        score[scoreCol].wazari = false;
+                        notify( evIppon );
+                    }
+                }
+                else
+                {
+                    if( !score[scoreCol].ippon )
+                        score[scoreCol].wazari = true;
+                }
             }
             else
-            { // subtract wazari
-                if( score[blue].wazari > 0 )
-                    score[blue].wazari--;
+            {
+                if( score[scoreCol].ippon )
+                {
+                    score[scoreCol].ippon  = false;
+                    score[scoreCol].wazari = true;
+                    notify( evIpponDel );
+                }
+                else
+                    score[scoreCol].wazari = false;
             }
 
+            // comparing score before/after score states
             if( scoreState != equalScore() )
             {
                 if( equalScore() )
@@ -192,51 +264,16 @@ void Score::onButtonEv(const PltFrm::Btn::BtnInstance& btn)
             }
             break;
         }
-        case PltFrm::Btn::shidoBlBtn:
-            if( swState )
-            { // add shido
-                if( score[blue].shido == (maxShido - 1) )
-                {
-                    if( !hasWinner() )
-                    {
-                        score[blue].shido++;
-                        notify( evDisqual );
-                    }
-                }
-                else
-                {
-                    score[blue].shido++;
-                    notify( evShido );
-                }
-            }
-            else
-            { // subtract shido
-                if( score[blue].shido == maxShido )
-                {
-                    score[blue].shido--;
-                    notify( evDisqualDel );
-                }
-                else if( score[blue].shido > 0 )
-                {
-                    score[blue].shido--;
-                    notify( evShidoDec );
-                }
-            }
-            break;
-
-            // white buttons
-        case PltFrm::Btn::ipponWhBtn:
+        case shido:
 
             break;
-        case PltFrm::Btn::wazariWhBtn:
-
-            break;
-        case PltFrm::Btn::shidoWhBtn:
 
         default:
             break;
         }
     }
+
+    // actualize Digits
     mDispl->setScoreDigits( blue , score[blue] );
     mDispl->setScoreDigits( white, score[white] );
 }

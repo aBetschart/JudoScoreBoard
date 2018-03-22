@@ -20,7 +20,7 @@ enum FighterColour
 struct FighterScore
 {
     uint8_t     shido;  // 3 shidos means ippon for opponent
-    uint8_t     wazari; // no limitations for wazari
+    bool        wazari; // no limitations for wazari
     bool        ippon;  // ippon means victory
 };
 
