@@ -310,36 +310,58 @@ void Score::onButtonEv(const PltFrm::Btn::BtnInstance& btn)
 //--------------------------------------------------------------
 void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
 {
+    FighterColour scoreCol;
+    FighterColour otherCol;
+    Scoring scoring;
+
     switch( ev )
     {
     case OsaekTimeCtrl::evWazariTimeBl:
-    {
-        bool scoreState = equalScore();
-
-        score[blue].wazari++;
-
-        if( scoreState != equalScore() )
-        {
-            if( equalScore() )
-                notify( evEqualScore );
-            else
-                notify( evEqualScoreLost );
-        }
+        scoreCol = blue;
+        otherCol = white;
+        scoring  = wazari;
         break;
-    }
     case OsaekTimeCtrl::evIpponTimeBl:
-        if( !hasWinner() )
-        {
-            score[blue].ippon = true;
-            notify( evIppon );
-        }
+        scoreCol = blue;
+        otherCol = white;
+        scoring  = ippon;
         break;
     case OsaekTimeCtrl::evWazariTimeWh:
+        scoreCol = white;
+        otherCol = blue;
+        scoring  = wazari;
+        break;
+    case OsaekTimeCtrl::evIpponTimeWh:
+        scoreCol = white;
+        otherCol = blue;
+        scoring  = ippon;
+        break;
+    default:
+        break;
+    }
+
+    switch( scoring )
+    {
+    case wazari:
     {
         bool scoreState = equalScore();
 
-        score[white].wazari++;
+        if( score[scoreCol].wazari )
+        {
+            if( !score[otherCol].ippon )
+            {
+                score[scoreCol].ippon  = true;
+                score[scoreCol].wazari = false;
+                notify( evIppon );
+            }
+        }
+        else
+        {
+            if( !score[scoreCol].ippon )
+                score[scoreCol].wazari = true;
+        }
 
+        // comparing score before/after score states
         if( scoreState != equalScore() )
         {
             if( equalScore() )
@@ -347,12 +369,12 @@ void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
             else
                 notify( evEqualScoreLost );
         }
+        break;
     }
-    break;
-    case OsaekTimeCtrl::evIpponTimeWh:
+    case ippon:
         if( !hasWinner() )
         {
-            score[white].ippon = true;
+            score[scoreCol].ippon = true;
             notify( evIppon );
         }
         break;
