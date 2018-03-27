@@ -34,8 +34,6 @@ public:
         evIpponDel,
         evDisqual,
         evDisqualDel,
-        evShido,
-        evShidoDec,
         evEqualScore,
         evEqualScoreLost
     };
@@ -44,8 +42,7 @@ public:
 
     enum
     {
-        maxShido  = 3,
-        maxWazari = 9
+        maxShido  = 3
     };
 
 	Score( JudoDisplay* displ, OsaekTimeCtrl* osaekCtrl );

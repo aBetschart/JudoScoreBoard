@@ -265,7 +265,34 @@ void Score::onButtonEv(const PltFrm::Btn::BtnInstance& btn)
             break;
         }
         case shido:
-
+            if( swState )
+            { // incrementing shido
+                if( score[scoreCol].shido == (maxShido - 1) )
+                {
+                    if( !hasWinner() )
+                    {
+                        score[scoreCol].shido = maxShido;
+                        score[otherCol].ippon = true;
+                        notify( evDisqual );
+                    }
+                }
+                else
+                    score[scoreCol].shido++;
+            }
+            else
+            { // decrementing shido
+                if( score[scoreCol].shido == maxShido )
+                {
+                    score[scoreCol].shido = maxShido - 1;
+                    score[otherCol].ippon = false;
+                    notify( evDisqualDel );
+                }
+                else
+                {
+                    if( score[scoreCol].shido > 0 )
+                        score[scoreCol].shido--;
+                }
+            }
             break;
 
         default:
@@ -290,7 +317,6 @@ void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
         bool scoreState = equalScore();
 
         score[blue].wazari++;
-        score[blue].wazari = score[blue].wazari % maxWazari;
 
         if( scoreState != equalScore() )
         {
@@ -313,7 +339,6 @@ void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
         bool scoreState = equalScore();
 
         score[white].wazari++;
-        score[white].wazari = score[white].wazari % maxWazari;
 
         if( scoreState != equalScore() )
         {
