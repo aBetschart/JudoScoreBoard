@@ -108,26 +108,6 @@ void ScoreCtrl::process(const ScoreCtrlEv& ev)
             }
         }
         break;
-    case evShido:
-        if( mState == stateNoWinner )
-        {
-            if( mFightCtrl->goldenScore() )
-            {
-                mState = stateWinnerFound;
-                notify( evWinnerFound );
-                winnerLed.turnOn();
-            }
-        }
-        break;
-    case evShidoDec:
-        if( (mState == stateNoWinner) &&
-            (mFightCtrl->goldenScore()) )
-        {
-            mState = stateNoWinner;
-            notify( evWinnerFound );
-            winnerLed.turnOff();
-        }
-        break;
     case evEqualScore:
         if( mFightCtrl->goldenScore() &&
             (mState == stateWinnerFound) )
@@ -200,12 +180,6 @@ void ScoreCtrl::onScoreEv( const Obj::Score::ScoreEv& ev )
         break;
     case Score::evDisqualDel:
         process( evDisqualDel );
-        break;
-    case Score::evShido:
-        process( evShido );
-        break;
-    case Score::evShidoDec:
-        process( evShidoDec );
         break;
     case Score::evEqualScore:
         process( evEqualScore );

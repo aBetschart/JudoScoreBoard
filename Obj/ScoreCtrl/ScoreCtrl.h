@@ -40,8 +40,6 @@ public:
         evIpponDel,
         evDisqual,
         evDisqualDel,
-        evShido,
-        evShidoDec,
         evEqualScore,
         evEqualScoreLost,
 
