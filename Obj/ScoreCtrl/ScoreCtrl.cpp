@@ -43,7 +43,6 @@ ScoreCtrl::ScoreCtrl(FightCtrl* fightCtrl, OsaekTimeCtrl* osaekCtrl, JudoDisplay
 //--------------------------------------------------------------
 ScoreCtrl::~ScoreCtrl()
 {
-    mScore.lock();
 }
 //--------------------------------------------------------------
 

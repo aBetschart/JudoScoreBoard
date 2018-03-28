@@ -51,9 +51,6 @@ public:
 	bool equalScore();
 	bool hasWinner();
 
-	void lock();
-	void unlock();
-
 	void registerOnEv( IScoreEvHandler* handler );
 	virtual void onButtonEv(const PltFrm::Btn::BtnInstance& btn);
 	virtual void onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev);
@@ -79,7 +76,6 @@ private:
 	PltFrm::BtnDebounce btnDeb;
 
 	JudoDisplay *mDispl;
-	OsaekTimeCtrl *mOsaekCtrl;
 
     IScoreEvHandler* evHandler[nrOfEvHandlers];
 };
