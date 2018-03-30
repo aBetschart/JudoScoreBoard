@@ -116,8 +116,10 @@ static const uint32_t gpioBaseAddr[Hal::Gpio::nrOfGpioPorts] =
 
 static const Hal::Nvic::irInstance irInst[Hal::Gpio::nrOfGpioPorts] =
 {
- Nvic::gpioPortA, Nvic::gpioPortB, Nvic::gpioPortC, Nvic::gpioPortD, Nvic::gpioPortE, Nvic::gpioPortF,
- Nvic::gpioPortG, Nvic::gpioPortH, Nvic::gpioPortJ, Nvic::gpioPortK, Nvic::gpioPortL
+ Nvic::gpioPortA, Nvic::gpioPortB, Nvic::gpioPortC, Nvic::gpioPortD,
+ Nvic::gpioPortE, Nvic::gpioPortF, Nvic::gpioPortG, Nvic::gpioPortH,
+ Nvic::gpioPortJ, Nvic::gpioPortK, Nvic::gpioPortL, Nvic::gpioPortM,
+ Nvic::gpioPortN, Nvic::gpioPortP, Nvic::gpioPortQ,
 };
 //--------------------------------------------------------------
 
