@@ -184,8 +184,8 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // ADC1 Sequence 3
     IntDefaultHandler,                      // External Bus Interface 0
     gpioCallBackPortJWr,                    // GPIO Port J
-    IntDefaultHandler,                      // GPIO Port K
-    IntDefaultHandler,                      // GPIO Port L
+    gpioCallBackPortKWr,                    // GPIO Port K
+    gpioCallBackPortLWr,                    // GPIO Port L
     ssi2CallBackWr,                         // SSI2 Rx and Tx
     ssi3CallBackWr,                         // SSI3 Rx and Tx
     IntDefaultHandler,                      // UART3 Rx and Tx
@@ -209,21 +209,21 @@ void (* const g_pfnVectors[])(void) =
     0,                                      // Reserved
     IntDefaultHandler,                      // Tamper
     gpioCallBackPortPWr,                    // GPIO Port P (Summary or P0)
-    IntDefaultHandler,                      // GPIO Port P1
-    IntDefaultHandler,                      // GPIO Port P2
-    IntDefaultHandler,                      // GPIO Port P3
-    IntDefaultHandler,                      // GPIO Port P4
-    IntDefaultHandler,                      // GPIO Port P5
-    IntDefaultHandler,                      // GPIO Port P6
-    IntDefaultHandler,                      // GPIO Port P7
+    gpioCallBackPortPWr,                    // GPIO Port P1
+    gpioCallBackPortPWr,                    // GPIO Port P2
+    gpioCallBackPortPWr,                    // GPIO Port P3
+    gpioCallBackPortPWr,                    // GPIO Port P4
+    gpioCallBackPortPWr,                    // GPIO Port P5
+    gpioCallBackPortPWr,                    // GPIO Port P6
+    gpioCallBackPortPWr,                    // GPIO Port P7
     gpioCallBackPortQWr,                    // GPIO Port Q (Summary or Q0)
-    IntDefaultHandler,                      // GPIO Port Q1
-    IntDefaultHandler,                      // GPIO Port Q2
-    IntDefaultHandler,                      // GPIO Port Q3
-    IntDefaultHandler,                      // GPIO Port Q4
-    IntDefaultHandler,                      // GPIO Port Q5
-    IntDefaultHandler,                      // GPIO Port Q6
-    IntDefaultHandler,                      // GPIO Port Q7
+    gpioCallBackPortQWr,                    // GPIO Port Q1
+    gpioCallBackPortQWr,                    // GPIO Port Q2
+    gpioCallBackPortQWr,                    // GPIO Port Q3
+    gpioCallBackPortQWr,                    // GPIO Port Q4
+    gpioCallBackPortQWr,                    // GPIO Port Q5
+    gpioCallBackPortQWr,                    // GPIO Port Q6
+    gpioCallBackPortQWr,                    // GPIO Port Q7
     IntDefaultHandler,                      // GPIO Port R
     IntDefaultHandler,                      // GPIO Port S
     IntDefaultHandler,                      // SHA/MD5 0
