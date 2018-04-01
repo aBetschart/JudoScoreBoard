@@ -23,10 +23,15 @@ namespace Obj
 
 //--------------------------------------------------------------
 FightCtrl::FightCtrl():
-    mOsaekTimeCtrl( &displ, this ), mScoreCtrl( this, &mOsaekTimeCtrl, &displ ),
-    mMainTimeCtrl( &displ, this )
+    mOsaekTimeCtrl( &displ, this ),
+    mScoreCtrl( this, &mOsaekTimeCtrl, &displ ),
+    mMainTimeCtrl( &displ, this ),
+    mState( stateNormal )
 {
 
+    mMainTimeCtrl.registerOnEv( this );
+    mOsaekTimeCtrl.registerOnEv( this );
+    mScoreCtrl.registerOnEv( this );
 }
 //--------------------------------------------------------------
 
@@ -84,10 +89,12 @@ void FightCtrl::process(const FightCtrlEv& ev)
         if( mState == stateNormal )
         {
             mState = stateWinnerFound;
+            mMainTimeCtrl.process( MainTimeCtrl::evStop );
         }
         else if( mState == stateGoldenScore )
         {
             mState = stateGoldenScoreEnd;
+            mMainTimeCtrl.process( MainTimeCtrl::evStop );
         }
         break;
 
