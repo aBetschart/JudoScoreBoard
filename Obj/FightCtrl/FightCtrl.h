@@ -45,6 +45,7 @@ public:
 
 	bool goldenScore();
 	bool timeIsRunning();
+	bool osaekomiIsRunning();
 	bool equalScore();
 
 	virtual void onOsaekTimeCtrlEv( Obj::OsaekTimeCtrl::OsaekCtrlEv ev );

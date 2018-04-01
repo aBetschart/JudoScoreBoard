@@ -142,6 +142,14 @@ bool FightCtrl::timeIsRunning()
 
 
 //--------------------------------------------------------------
+bool FightCtrl::osaekomiIsRunning()
+{
+    return mOsaekTimeCtrl.osaekomiRunning();
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
 bool FightCtrl::equalScore()
 {
     return mScoreCtrl.equalScore();
