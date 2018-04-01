@@ -36,6 +36,13 @@ MainTimeCtrl::MainTimeCtrl( JudoDisplay* displ, FightCtrl* fightCtrl ):
         evHandler[i] = 0;
 
     mMainTime.setCountDir( Obj::MainTime::down );
+    mMainTime.regsiterOnEv( this );
+
+    startBtn.registerOnEv( this );
+    stopBtn.registerOnEv( this );
+
+    startBtn.enable();
+    stopBtn.enable();
 }
 //--------------------------------------------------------------
 
@@ -57,11 +64,13 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
         if( mState == stateStopCountDown )
         {
             mState = stateCountDown;
+            timeRunLed.turnOn();
             mMainTime.start();
         }
         else if( mState == stateStopCountUp )
         {
             mState = stateCountUp;
+            timeRunLed.turnOn();
             mMainTime.start();
         }
         break;
@@ -70,11 +79,13 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
         if( mState == stateCountDown )
         {
             mState = stateStopCountDown;
+            timeRunLed.turnOff();
             mMainTime.stop();
         }
         else if( mState == stateCountUp )
         {
             mState = stateStopCountUp;
+            timeRunLed.turnOff();
             mMainTime.stop();
         }
         break;
@@ -88,12 +99,14 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
                 mMainTime.stop();
                 mMainTime.reset();
                 mMainTime.setCountDir( Obj::MainTime::up );
+                timeRunLed.turnOff();
             }
             else
             {
                 mState = stateStopCountDown;
                 mMainTime.stop();
                 mMainTime.reset();
+                timeRunLed.turnOff();
             }
         }
         break;
@@ -131,4 +144,22 @@ void MainTimeCtrl::onMainTimeEv( const Obj::MainTime::MainTimeEv& ev )
 }
 //--------------------------------------------------------------
 
+
+//--------------------------------------------------------------
+void MainTimeCtrl::onButtonEv( const PltFrm::Btn::BtnInstance& btn )
+{
+    switch( btn )
+    {
+    case PltFrm::Btn::startBtn:
+        this->process( evStart );
+        break;
+    case PltFrm::Btn::stopBtn:
+        this->process( evStop );
+        break;
+
+    default:
+        break;
+    }
+}
+//--------------------------------------------------------------
 } // namespace Obj

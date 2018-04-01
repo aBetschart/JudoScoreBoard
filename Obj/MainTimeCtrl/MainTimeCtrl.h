@@ -18,6 +18,7 @@
 #include "../../PltFrm/Led/Led.h"
 
 #include "../../EvHandler/IMainTimeEvHandler.h"
+#include "../../EvHandler/IBtnEvHandler.h"
 //--------------------------------------------------------------
 
 class IMainTimeCtrlEvHandler;
@@ -28,7 +29,7 @@ namespace Obj
 class JudoDisplay;
 class FightCtrl;
 
-class MainTimeCtrl : public IMainTimeEvHandler
+class MainTimeCtrl : public IMainTimeEvHandler, public IBtnEvHandler
 {
 
 public:
@@ -52,6 +53,7 @@ public:
 
 	void registerOnEv( IMainTimeCtrlEvHandler* handler );
 	virtual void onMainTimeEv( const Obj::MainTime::MainTimeEv& ev );
+	void onButtonEv( const PltFrm::Btn::BtnInstance& btn );
 
 protected:
 	void notify( const MainTimeCtrlEv& ev );
