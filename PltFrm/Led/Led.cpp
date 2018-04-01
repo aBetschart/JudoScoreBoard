@@ -18,8 +18,8 @@ static const Hal::Gpio::GpioInit gpioInit[Led::nrOfLeds] =
 {
 /* gldnScrLed   */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin0, Hal::Gpio::noResistor, false},
 /* winnerLed    */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin1, Hal::Gpio::noResistor, false},
-/* fightOverLed */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin2, Hal::Gpio::noResistor, false},
-/* TimeLed      */  {Hal::Gpio::dirOutput, Hal::Gpio::portN, Hal::Gpio::pin3, Hal::Gpio::noResistor, false}
+/* fightOverLed */  {Hal::Gpio::dirOutput, Hal::Gpio::portE, Hal::Gpio::pin4, Hal::Gpio::noResistor, false},
+/* TimeLed      */  {Hal::Gpio::dirOutput, Hal::Gpio::portC, Hal::Gpio::pin4, Hal::Gpio::noResistor, false}
 };
 
 Led::Led( const LedInstance& inst ): mInst(inst), mGpio( gpioInit[inst] )
