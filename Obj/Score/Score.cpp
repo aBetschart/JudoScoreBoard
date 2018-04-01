@@ -37,7 +37,8 @@ namespace Obj
 {
 //--------------------------------------------------------------
 Score::Score( JudoDisplay* displ, OsaekTimeCtrl* osaekCtrl ):
-  mDispl( displ ), locked(false),
+  mDispl( displ ),
+  mOsaekCtrl( osaekCtrl ),
   scoreSw( PltFrm::Switch::scoreSwitch ),
   ipponBlBtn( PltFrm::Btn::ipponBlBtn ),
   wazariBlBtn( PltFrm::Btn::wazariBlBtn ),
@@ -338,6 +339,12 @@ void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
             {
                 score[scoreCol].ippon  = true;
                 score[scoreCol].wazari = false;
+
+                if( scoreCol == blue )
+                    mOsaekCtrl->process( OsaekTimeCtrl::evStopBl );
+                else
+                    mOsaekCtrl->process( OsaekTimeCtrl::evStopWh );
+
                 notify( evIppon );
             }
         }
@@ -360,13 +367,17 @@ void Score::onOsaekTimeCtrlEv(Obj::OsaekTimeCtrl::OsaekCtrlEv ev)
     case ippon:
         if( !hasWinner() )
         {
-            score[scoreCol].ippon = true;
+            score[scoreCol].ippon  = true;
+            score[scoreCol].wazari = false;
             notify( evIppon );
         }
         break;
     default:
         break;
     }
+
+    mDispl->setScoreDigits(blue, score[blue]);
+    mDispl->setScoreDigits(white, score[white]);
 }
 //--------------------------------------------------------------
 

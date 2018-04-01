@@ -60,7 +60,6 @@ protected:
 
 private:
 
-	bool locked;
 	FighterScore score[nrOfFighterColours];
 
 	PltFrm::Switch scoreSw;
@@ -76,6 +75,7 @@ private:
 	PltFrm::BtnDebounce btnDeb;
 
 	JudoDisplay *mDispl;
+	OsaekTimeCtrl *mOsaekCtrl;
 
     IScoreEvHandler* evHandler[nrOfEvHandlers];
 };
