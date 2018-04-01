@@ -32,7 +32,7 @@ public:
     enum
     {
         nrOfEvHandlers = 1,
-        wazariTime = 15,
+        wazariTime = 10,
         ipponTime  = 20
     };
 
