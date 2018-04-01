@@ -385,10 +385,11 @@ void Gpio::checkIrStatus(const GpioPort& p)
     uint8_t checkBit = 0x01;
     for( int i = 0 ; i < nrOfPins ; ++i )
     {
-        if( (irStatReg->checkBits(checkBit)) && (instance[p][i] != 0) )
+        if( irStatReg->checkBits(checkBit) )
         {
             irClearReg->setBits(checkBit);
-            instance[p][i]->notify();
+            if( instance[p][i] != 0 )
+                instance[p][i]->notify();
         }
         checkBit = checkBit << 1;
     }
