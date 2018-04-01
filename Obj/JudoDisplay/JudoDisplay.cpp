@@ -67,7 +67,12 @@ void JudoDisplay::setScoreDigits(const FighterColour& col,
     int shiftIndex = nrOfScoreDigits/2;
 
     scoreDigit[0 + shiftIndex*col] = score.shido;
-    scoreDigit[1 + shiftIndex*col] = score.wazari;
+
+    if( score.wazari )
+        scoreDigit[1 + shiftIndex*col] = 1;
+    else
+        scoreDigit[1 + shiftIndex*col] = 0;
+
     if( score.ippon )
         scoreDigit[2 + shiftIndex*col] = 1;
     else
