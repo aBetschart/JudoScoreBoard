@@ -68,10 +68,8 @@ private:
 	JudoDisplay displ;
 	//Fight mFight;
 	MainTimeCtrl mMainTimeCtrl;
-	ScoreCtrl mScoreCtrl;
 	OsaekTimeCtrl mOsaekTimeCtrl;
-
-
+	ScoreCtrl mScoreCtrl;
 };
 
 } // namespace Obj
