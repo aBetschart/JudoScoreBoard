@@ -43,6 +43,8 @@ OsaekTimeCtrl::OsaekTimeCtrl( JudoDisplay* displ, FightCtrl* fightCtrl ):
 
     osaekBlBtn.enable();
     osaekWhBtn.enable();
+
+    mOsaekTime.registerOnEv( this );
 }
 //--------------------------------------------------------------
 
@@ -88,7 +90,6 @@ void OsaekTimeCtrl::process(const OsaekCtrlEv& ev)
         {
             mState = stateStop;
             mOsaekTime.stop();
-            mOsaekTime.reset();
             notify( evOsaekOver );
         }
         break;
@@ -97,7 +98,6 @@ void OsaekTimeCtrl::process(const OsaekCtrlEv& ev)
         {
             mState = stateStop;
             mOsaekTime.stop();
-            mOsaekTime.reset();
             notify( evOsaekOver );
         }
         break;
