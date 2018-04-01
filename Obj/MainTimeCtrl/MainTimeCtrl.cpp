@@ -146,6 +146,21 @@ void MainTimeCtrl::onMainTimeEv( const Obj::MainTime::MainTimeEv& ev )
 
 
 //--------------------------------------------------------------
+void MainTimeCtrl::registerOnEv(IMainTimeCtrlEvHandler* handler)
+{
+    for( int i = 0 ; i < nrOfEvHandlers ; ++i )
+    {
+        if( evHandler[i] == 0 )
+        {
+            evHandler[i] = handler;
+            break;
+        }
+    }
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
 void MainTimeCtrl::onButtonEv( const PltFrm::Btn::BtnInstance& btn )
 {
     switch( btn )
@@ -159,6 +174,18 @@ void MainTimeCtrl::onButtonEv( const PltFrm::Btn::BtnInstance& btn )
 
     default:
         break;
+    }
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+void MainTimeCtrl::notify(const MainTimeCtrlEv& ev)
+{
+    for( int i = 0 ; i < nrOfEvHandlers ; ++i )
+    {
+        if( evHandler[i] != 0 )
+            evHandler[i]->onMainTimeCtrlEv( ev );
     }
 }
 //--------------------------------------------------------------
