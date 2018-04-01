@@ -65,12 +65,13 @@ private:
 
 	FightCtrlState mState;
 
+	JudoDisplay displ;
 	//Fight mFight;
 	MainTimeCtrl mMainTimeCtrl;
 	ScoreCtrl mScoreCtrl;
 	OsaekTimeCtrl mOsaekTimeCtrl;
 
-	JudoDisplay displ;
+
 };
 
 } // namespace Obj
