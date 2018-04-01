@@ -29,7 +29,7 @@ OsaekTimeCtrl::OsaekTimeCtrl( JudoDisplay* displ, FightCtrl* fightCtrl ):
         osaekBlBtn( PltFrm::Btn::osaekBlBtn ),
         osaekWhBtn( PltFrm::Btn::osaekWhBtn ),
         mOsaekTime( displ ), mState( stateStop ),
-        mBtnDeb( PltFrm::TimeTick::osaekTimeTick ),
+        mBtnDeb( PltFrm::TimeTick::osaekBtnTick ),
         mFightCtrl( fightCtrl )
 {
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
