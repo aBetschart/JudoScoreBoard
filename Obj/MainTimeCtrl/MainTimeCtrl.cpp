@@ -76,20 +76,22 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
         break;
 
     case evStop:
-        if( mState == stateCountDown )
+        if( !mFightCtrl->osaekomiIsRunning() )
         {
-            mState = stateStopCountDown;
-            timeRunLed.turnOff();
-            mMainTime.stop();
-        }
-        else if( mState == stateCountUp )
-        {
-            mState = stateStopCountUp;
-            timeRunLed.turnOff();
-            mMainTime.stop();
+            if( mState == stateCountDown )
+            {
+                mState = stateStopCountDown;
+                timeRunLed.turnOff();
+                mMainTime.stop();
+            }
+            else if( mState == stateCountUp )
+            {
+                mState = stateStopCountUp;
+                timeRunLed.turnOff();
+                mMainTime.stop();
+            }
         }
         break;
-
     case evTimeIsOver:
         if( mState == stateCountDown )
         {
