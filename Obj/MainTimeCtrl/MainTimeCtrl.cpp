@@ -61,20 +61,22 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
     switch( ev )
     {
     case evStart:
-        if( mState == stateStopCountDown )
+        if( !mFightCtrl->hasWinner() )
         {
-            mState = stateCountDown;
-            timeRunLed.turnOn();
-            mMainTime.start();
-        }
-        else if( mState == stateStopCountUp )
-        {
-            mState = stateCountUp;
-            timeRunLed.turnOn();
-            mMainTime.start();
+            if( mState == stateStopCountDown )
+            {
+                mState = stateCountDown;
+                timeRunLed.turnOn();
+                mMainTime.start();
+            }
+            else if( mState == stateStopCountUp )
+            {
+                mState = stateCountUp;
+                timeRunLed.turnOn();
+                mMainTime.start();
+            }
         }
         break;
-
     case evStop:
         if( !mFightCtrl->osaekomiIsRunning() )
         {
