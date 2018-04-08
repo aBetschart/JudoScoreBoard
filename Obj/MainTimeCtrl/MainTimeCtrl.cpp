@@ -95,7 +95,7 @@ void MainTimeCtrl::process(const MainTimeCtrlEv& ev)
     case evTimeIsOver:
         if( mState == stateCountDown )
         {
-            if( !mFightCtrl->equalScore() )
+            if( mFightCtrl->equalScore() )
             {
                 mState = stateStopCountUp;
                 mMainTime.stop();
