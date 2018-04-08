@@ -68,10 +68,9 @@ void FightCtrl::process(const FightCtrlEv& ev)
     case evTimeIsOver:
         if( mState == stateNormal )
         {
-            if( mOsaekTimeCtrl.osaekomiRunning() )
+            if( osaekomiIsRunning() )
             {
                 mState = stateWaitForOsaekomi;
-
             }
             else if( equalScore() )
             {
@@ -153,6 +152,14 @@ bool FightCtrl::osaekomiIsRunning()
 bool FightCtrl::equalScore()
 {
     return mScoreCtrl.equalScore();
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+bool FightCtrl::hasWinner()
+{
+    return mScoreCtrl.winnerFound();
 }
 //--------------------------------------------------------------
 

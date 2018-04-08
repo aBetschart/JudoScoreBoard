@@ -47,6 +47,7 @@ public:
 	bool timeIsRunning();
 	bool osaekomiIsRunning();
 	bool equalScore();
+	bool hasWinner();
 
 	virtual void onOsaekTimeCtrlEv( Obj::OsaekTimeCtrl::OsaekCtrlEv ev );
 	virtual void onMainTimeCtrlEv( const Obj::MainTimeCtrl::MainTimeCtrlEv& ev);
