@@ -84,6 +84,7 @@ void ScoreCtrl::process(const ScoreCtrlEv& ev)
         if( mState == stateNoWinner )
         {
             mState = stateWinnerFound;
+            notify( evWinnerFound );
             winnerLed.turnOn();
         }
         break;
