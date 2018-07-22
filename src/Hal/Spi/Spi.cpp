@@ -56,7 +56,7 @@ void ssi3CallBackWr(void)
 
 namespace Hal
 {
-Spi::Spi* Spi::instance[nrOfSpi] = {0};
+Spi* Spi::instance[nrOfSpi] = {0};
 
 //--------------------------------------------------------------
 // -- variables

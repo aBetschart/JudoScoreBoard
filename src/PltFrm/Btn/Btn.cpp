@@ -19,7 +19,7 @@
 //--------------------------------------------------------------
 // -- variables
 //--------------------------------------------------------------
-PltFrm::Btn::Btn* PltFrm::Btn::instance[PltFrm::Btn::nrOfBtns] = {0};
+PltFrm::Btn* PltFrm::Btn::instance[PltFrm::Btn::nrOfBtns] = {0};
 
 static const Hal::Gpio::GpioInit gpioInit[PltFrm::Btn::nrOfBtns] =
 {

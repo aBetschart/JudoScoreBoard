@@ -13,7 +13,7 @@
 class ITimerEvHandler
 {
 public:
-    virtual void onTimerEv( const Hal::Timer::Timer& timer,
+    virtual void onTimerEv( const Hal::Timer& timer,
                                const Hal::Timer::TimerEv ev ) = 0;
 
 };

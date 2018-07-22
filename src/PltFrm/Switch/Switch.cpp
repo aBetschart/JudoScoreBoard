@@ -17,7 +17,7 @@
 //--------------------------------------------------------------
 // -- variables
 //--------------------------------------------------------------
-PltFrm::Switch::Switch* PltFrm::Switch::instance[PltFrm::Switch::nrOfSwitches] = {0};
+PltFrm::Switch* PltFrm::Switch::instance[PltFrm::Switch::nrOfSwitches] = {0};
 
 static const Hal::Gpio::GpioInit gpioInit[PltFrm::Switch::nrOfSwitches] =
 {

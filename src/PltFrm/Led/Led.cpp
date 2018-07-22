@@ -12,7 +12,7 @@
 namespace PltFrm
 {
 
-Led::Led* Led::instance[Led::nrOfLeds] = {0};
+Led* Led::instance[Led::nrOfLeds] = {0};
 
 static const Hal::Gpio::GpioInit gpioInit[Led::nrOfLeds] =
 {

@@ -123,7 +123,7 @@ static const Hal::Nvic::irInstance irInst[Hal::Gpio::nrOfGpioPorts] =
 };
 //--------------------------------------------------------------
 
-Gpio::Gpio* Hal::Gpio::instance[Hal::Gpio::nrOfGpioPorts][Gpio::nrOfPins] = {0};
+Gpio* Hal::Gpio::instance[Hal::Gpio::nrOfGpioPorts][Gpio::nrOfPins] = {0};
 
 //--------------------------------------------------------------
 Gpio::Gpio( const GpioInit& init ): mPort( init.port ), mBit( 0x01 << init.nr )

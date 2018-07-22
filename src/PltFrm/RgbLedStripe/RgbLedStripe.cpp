@@ -19,7 +19,7 @@
 //--------------------------------------------------------------
 // -- variables
 //--------------------------------------------------------------
-PltFrm::RgbLedStripe::RgbLedStripe* PltFrm::RgbLedStripe::instance[PltFrm::RgbLedStripe::nrOfRgbLedStripes] = {0};
+PltFrm::RgbLedStripe* PltFrm::RgbLedStripe::instance[PltFrm::RgbLedStripe::nrOfRgbLedStripes] = {0};
 
 static const Hal::Spi::SpiInit spiInit[PltFrm::RgbLedStripe::nrOfRgbLedStripes] =
 {

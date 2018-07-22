@@ -48,7 +48,7 @@ static const uint32_t usInterval[PltFrm::TimeTick::nrOfTimeTicks] =
 namespace PltFrm
 {
 
-TimeTick::TimeTick* TimeTick::instance[TimeTick::nrOfTimeTicks] = {0};
+TimeTick* TimeTick::instance[TimeTick::nrOfTimeTicks] = {0};
 
 //--------------------------------------------------------------
 TimeTick::TimeTick( const TimeTickInstance& t ):
@@ -114,7 +114,7 @@ void TimeTick::registerOnEv( ITimeTickEvHandler* handler )
 
 
 //--------------------------------------------------------------
-void TimeTick::onTimerEv(const Hal::Timer::Timer& timer,
+void TimeTick::onTimerEv(const Hal::Timer& timer,
                          const Hal::Timer::TimerEv ev)
 {
     if( (ev == Hal::Timer::evTimeOut) && (mTimer == timer) )

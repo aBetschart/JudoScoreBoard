@@ -136,7 +136,7 @@ static const Hal::Nvic::irInstance irInst[Timer::nrOfTimers][Timer::nrOfSubTimer
  {Nvic::timer7A, Nvic::timer7B},
 };
 
-Timer::Timer* Timer::instance[Timer::nrOfTimers][Timer::nrOfSubTimers] = {0};
+Timer* Timer::instance[Timer::nrOfTimers][Timer::nrOfSubTimers] = {0};
 //--------------------------------------------------------------
 
 
