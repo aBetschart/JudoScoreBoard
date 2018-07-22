@@ -20,7 +20,7 @@ Counter::Counter( const int& initVal ): val( initVal )
 
 
 //--------------------------------------------------------------
-int Counter::getCountVal()
+int Counter::getCountVal() const
 {
 	return val;
 }

@@ -15,7 +15,7 @@ public:
 	Counter( const int& initVal = 0 );
 	void decrement();
 	void increment();
-	int getCountVal();
+	int getCountVal() const;
 	void reset( const int& resVal = 0 );
 
 private:
