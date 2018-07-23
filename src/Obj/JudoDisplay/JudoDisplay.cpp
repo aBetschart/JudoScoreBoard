@@ -84,8 +84,8 @@ void JudoDisplay::setScoreDigits(const FighterColour& col,
 //--------------------------------------------------------------
 void JudoDisplay::setMainTimeDigits(const Time& t)
 {
-    mainTimeDigit[0] = t.getLowerSec();
-    mainTimeDigit[1] = t.getUpperSec();
+    mainTimeDigit[0] = t.getOnesOfSec();
+    mainTimeDigit[1] = t.getTensOfSec();
     mainTimeDigit[2] = t.getMin();
 }
 //--------------------------------------------------------------
@@ -94,8 +94,8 @@ void JudoDisplay::setMainTimeDigits(const Time& t)
 //--------------------------------------------------------------
 void JudoDisplay::setOsaekTimeDigits(const Time& t)
 {
-    osaekTimeDigit[0] = t.getLowerSec();
-    osaekTimeDigit[1] = t.getUpperSec();
+    osaekTimeDigit[0] = t.getOnesOfSec();
+    osaekTimeDigit[1] = t.getTensOfSec();
 }
 //--------------------------------------------------------------
 

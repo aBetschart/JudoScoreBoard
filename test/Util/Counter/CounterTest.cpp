@@ -1,5 +1,5 @@
 /*
- * MyClassTest.cpp
+ * CoutnerTest.cpp
  *
  *  Created on: 22.07.2018
  *      Author: aaron

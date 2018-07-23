@@ -7,10 +7,48 @@
 
 #include "Time.h"
 
-Time::Time( const int& pMin, const int& pSec ):
-sec( pSec % 60 ), min( pMin )
+enum
 {
+    maxSec = 59,
+    maxMin = 59
+};
 
+//--------------------------------------------------------------
+Time::Time( const int& pHour, const int& pMin, const int& pSec )
+{
+    initializeTimeAttributes(pSec, pMin, pHour);
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+void Time::initializeTimeAttributes(const int& pSec, const int& pMin,
+                                    const int& pHour)
+{
+    sec = pSec % 60;
+
+    int secOverflowBorder = maxSec + 1;
+    min = (int) ((pSec / secOverflowBorder));
+    min += pMin;
+
+    int minOverflowBorder = maxMin + 1;
+    int hourOverflow = min / minOverflowBorder;
+    min = min % minOverflowBorder;
+
+    hour = getAbsoluteValue(hourOverflow) + getAbsoluteValue(pHour);
+    sec =  getAbsoluteValue(sec);
+    min =  getAbsoluteValue(min);
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+int Time::getAbsoluteValue( const int& value )
+{
+    if (value < 0)
+        return ( value * (-1) );
+    else
+        return value;
 }
 //--------------------------------------------------------------
 
@@ -22,7 +60,7 @@ void Time::decSec()
     {
         if( getSec() == 0 )
         {
-            sec = 59;
+            sec = maxSec;
             decMin();
         }
         else
@@ -37,7 +75,7 @@ void Time::decSec()
 //--------------------------------------------------------------
 void Time::incSec()
 {
-    if( getSec() == 59 )
+    if( getSec() == maxSec )
     {
         sec = 0;
         incMin();
@@ -53,8 +91,16 @@ void Time::incSec()
 //--------------------------------------------------------------
 void Time::decMin()
 {
-    if( getMin() != 0 )
-        min--;
+    if( !isZero() )
+    {
+        if( getMin() == 0 )
+        {
+            min  = maxMin;
+            decHour();
+        }
+        else
+            min--;
+    }
 }
 //--------------------------------------------------------------
 
@@ -62,7 +108,30 @@ void Time::decMin()
 //--------------------------------------------------------------
 void Time::incMin()
 {
-    min++;
+    if( getMin() == maxMin )
+    {
+        min = 0;
+        incHour();
+    }
+    else
+        min++;
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+void Time::decHour()
+{
+    if( getHour() != 0 )
+        hour--;
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+void Time::incHour()
+{
+    hour++;
 }
 //--------------------------------------------------------------
 
@@ -76,7 +145,7 @@ int Time::getSec() const
 
 
 //--------------------------------------------------------------
-int Time::getLowerSec() const
+int Time::getOnesOfSec() const
 {
     return (sec % 10);
 }
@@ -84,7 +153,7 @@ int Time::getLowerSec() const
 
 
 //--------------------------------------------------------------
-int Time::getUpperSec() const
+int Time::getTensOfSec() const
 {
     return (sec / 10);
 }
@@ -100,17 +169,42 @@ int Time::getMin() const
 
 
 //--------------------------------------------------------------
-bool Time::isZero() const
+int Time::getOnesOfMin() const
 {
-    return( (getMin() == 0) && (getSec() == 0) );
+    return (min % 10);
 }
 //--------------------------------------------------------------
 
 
 //--------------------------------------------------------------
-void Time::reset(const int& pSec, const int& pMin)
+int Time::getTensOfMin() const
 {
-    sec = (pSec % 60);
-    min = pMin;
+    return (min / 10);
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+int Time::getHour() const
+{
+    return hour;
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+bool Time::isZero() const
+{
+    return( (getMin()  == 0) &&
+            (getSec()  == 0) &&
+            (getHour() == 0) );
+}
+//--------------------------------------------------------------
+
+
+//--------------------------------------------------------------
+void Time::reset(const int& pHour, const int& pMin, const int& pSec)
+{
+    initializeTimeAttributes(pSec, pMin, pHour);
 }
 //--------------------------------------------------------------
