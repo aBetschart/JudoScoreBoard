@@ -22,9 +22,6 @@ class Timer
 {
 public:
 
-    /**
-     * Number of the used timer
-     */
     enum TimerInstance
     {
         timer0, timer1, timer2, timer3,
@@ -41,9 +38,6 @@ public:
         nrOfSubTimers
     };
 
-    /**
-     * Mode of the timer
-     */
     enum TimerMode
     {
         oneShot,
@@ -54,9 +48,6 @@ public:
         pwm
     };
 
-    /**
-     * Count direction of the timer
-     */
     enum TimerCountDir
     {
         up,
@@ -100,9 +91,6 @@ public:
         TimerCountDir       dir;
     };
 
-    /**
-     * Number of possible eventhandlers
-     */
     enum { nrOfEvHandlers = 5 };
 
     /**
@@ -113,11 +101,6 @@ public:
      */
     Timer( const TimerInit& init );
 
-    /**
-     * @brief   Destructor
-     * @param   none
-     * @return  none
-     */
     virtual ~Timer();
 
     /**
