@@ -128,11 +128,6 @@ public:
      */
     Gpio( const GpioPort& p, const GpioPinNr& pin, const GpioFunc& f );
 
-    /**
-     * @brief   Destructor
-     * @param   none
-     * @return  none
-     */
     ~Gpio();
 
     /**
@@ -202,79 +197,20 @@ public:
      */
     bool operator==( const Gpio& gpio );
 
-    /**
-     * @brief   Interrupt Callback of Port A
-     */
     static void gpioCallBackPortA();
-
-    /**
-     * @brief   Interrupt Callback of Port B
-     */
     static void gpioCallBackPortB();
-
-    /**
-     * @brief   Interrupt Callback of Port C
-     */
     static void gpioCallBackPortC();
-
-    /**
-     * @brief   Interrupt Callback of Port D
-     */
     static void gpioCallBackPortD();
-
-    /**
-     * @brief   Interrupt Callback of Port E
-     */
     static void gpioCallBackPortE();
-
-    /**
-     * @brief   Interrupt Callback of Port F
-     */
     static void gpioCallBackPortF();
-
-    /**
-     * @brief   Interrupt Callback of Port G
-     */
     static void gpioCallBackPortG();
-
-    /**
-     * @brief   Interrupt Callback of Port H
-     */
     static void gpioCallBackPortH();
-
-    /**
-     * @brief   Interrupt Callback of Port J
-     */
     static void gpioCallBackPortJ();
-
-    /**
-     * @brief   Interrupt Callback of Port K
-     */
     static void gpioCallBackPortK();
-
-    /**
-     * @brief   Interrupt Callback of Port L
-     */
     static void gpioCallBackPortL();
-
-    /**
-     * @brief   Interrupt Callback of Port M
-     */
     static void gpioCallBackPortM();
-
-    /**
-     * @brief   Interrupt Callback of Port N
-     */
     static void gpioCallBackPortN();
-
-    /**
-     * @brief   Interrupt Callback of Port P
-     */
     static void gpioCallBackPortP();
-
-    /**
-     * @brief   Interrupt Callback of Port Q
-     */
     static void gpioCallBackPortQ();
 
 protected:
