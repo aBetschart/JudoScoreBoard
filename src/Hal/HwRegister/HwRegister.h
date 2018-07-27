@@ -8,18 +8,20 @@
 #ifndef HAL_HWREGISTER_HWREGISTER_H_
 #define HAL_HWREGISTER_HWREGISTER_H_
 
+#include "Register.h"
+
 namespace Hal
 {
 
 template<typename T>
-class HwRegister
+class HwRegister: public Register<T>
 {
 public:
-    void clearBits( const T& bits ){ regVal &= ~bits; }
-    void setBits( const T& bits ){ regVal |= bits; }
-    void insert( const T& bits ){ regVal = bits; }
-    bool checkBits( const T& bits ) const{ return ( (regVal & bits ) == bits ); }
-    T getVal() const { return regVal; }
+    virtual void clearBits( const T& bits ){ regVal &= ~bits; }
+    virtual void setBits( const T& bits ){ regVal |= bits; }
+    virtual void insert( const T& bits ){ regVal = bits; }
+    virtual bool checkBits( const T& bits ) const{ return ( (regVal & bits ) == bits ); }
+    virtual T getVal() const { return regVal; }
 
 private:
     ~HwRegister(){};
