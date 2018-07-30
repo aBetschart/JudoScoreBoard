@@ -9,7 +9,7 @@
 
 #include<new>
 
-#include "../HwRegister/HwRegister.h"
+#include "../../Register/HwRegister.h"
 #include "../Pll/Pll.h"
 
 namespace Hal
@@ -23,7 +23,7 @@ static const uint32_t clkFreq[Hal::Clk::nrOfClkSources] =
 //--------------------------------------------------------------
 void Hal::Clk::setClkSource(const ClkSource& clk)
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
 
     rsClkCfgReg->clearBits(0x00F00000);
 
@@ -34,7 +34,7 @@ void Hal::Clk::setClkSource(const ClkSource& clk)
         break;
     case mosc:
     {
-        HwRegister<uint8_t>* moscCtlReg = new (reinterpret_cast<void*>( 0x400FE07C )) Hal::HwRegister<uint8_t>;
+        HwRegister<uint8_t>* moscCtlReg = new (reinterpret_cast<void*>( 0x400FE07C )) HwRegister<uint8_t>;
         moscCtlReg->setBits(0x08); // power down mosc
         rsClkCfgReg->setBits(0x00300000); // set mosc to clk source
         moscCtlReg->clearBits(0x08); // power up mosc
@@ -53,7 +53,7 @@ void Hal::Clk::setClkSource(const ClkSource& clk)
 //--------------------------------------------------------------
 Clk::ClkSource Clk::getOscClkSource()
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint32_t clk = rsClkCfgReg->getVal();
     ClkSource clkSrc = piosc;
 
@@ -85,7 +85,7 @@ Clk::ClkSource Clk::getOscClkSource()
 //--------------------------------------------------------------
 void Hal::Clk::setPllClkSource(const ClkSource& clk)
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
 
     if( clk == piosc )
     {
@@ -103,7 +103,7 @@ void Hal::Clk::setPllClkSource(const ClkSource& clk)
 //--------------------------------------------------------------
 void Hal::Clk::setOscClkDivisor(const uint16_t& div)
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint16_t shortDiv = (div & 0x03FF); // just size of 10 bits
 
     rsClkCfgReg->clearBits( (0x000003FF << 10) );
@@ -115,7 +115,7 @@ void Hal::Clk::setOscClkDivisor(const uint16_t& div)
 //--------------------------------------------------------------
 uint16_t Clk::getOscClkDivisor()
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint32_t longVal = rsClkCfgReg->getVal();
 
     longVal =  longVal >> 10;
@@ -129,7 +129,7 @@ uint16_t Clk::getOscClkDivisor()
 //--------------------------------------------------------------
 void Hal::Clk::setPllClkDivisor(const uint16_t& div)
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint16_t shortDiv = (div & 0x03FF); // just size of 10 bits
 
     rsClkCfgReg->clearBits( 0x000003FF );
@@ -141,7 +141,7 @@ void Hal::Clk::setPllClkDivisor(const uint16_t& div)
 //--------------------------------------------------------------
 uint16_t Clk::getPllClkDivisor()
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint32_t longVal = rsClkCfgReg->getVal();
 
     longVal &= 0x000003FF;
@@ -154,7 +154,7 @@ uint16_t Clk::getPllClkDivisor()
 //--------------------------------------------------------------
 Clk::ClkSource Clk::getPllClkSource()
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
     uint32_t clk = rsClkCfgReg->getVal();
     ClkSource clkSrc = piosc;
 
@@ -205,7 +205,7 @@ uint32_t Clk::getRawClkFreq(const ClkSource& clk)
 //--------------------------------------------------------------
 bool Clk::pllEnabled()
 {
-    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsClkCfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
 
     return( rsClkCfgReg->checkBits(0x10000000) );
 }

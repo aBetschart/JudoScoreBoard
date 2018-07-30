@@ -10,9 +10,6 @@
 
 #include "Register.h"
 
-namespace Hal
-{
-
 template<typename T>
 class HwRegister: public Register<T>
 {
@@ -27,7 +24,5 @@ private:
     ~HwRegister(){};
     volatile T regVal;
 };
-
-} /* namespace Hal */
 
 #endif /* HAL_HWREGISTER_HWREGISTER_H_ */

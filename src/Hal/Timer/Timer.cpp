@@ -14,7 +14,6 @@
 #include <cassert>
 
 #include "../../EvHandler/ITimerEvHandler.h"
-#include "../HwRegister/HwRegister.h"
 #include "../Nvic/Nvic.h"
 #include "../Rcgc/Rcgc.h"
 //--------------------------------------------------------------
@@ -181,7 +180,7 @@ Timer::Timer( const TimerInit& init ): mInst( init.inst ),
         evHandler[i] = 0;
 
     Rcgc::enaTimerModule( mInst );
-    ctrlReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x00C )) Hal::HwRegister<uint16_t>;
+    ctrlReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x00C )) HwRegister<uint16_t>;
 
     // initialization of the timer
     this->stop();
@@ -222,9 +221,9 @@ Timer::TimerCountDir Timer::getCountDirection()
     HwRegister<uint32_t>* modeReg;
 
     if( isConcat || (mSubInst == subTimerA))
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) HwRegister<uint32_t>;
     else // subtimer B
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) HwRegister<uint32_t>;
 
     if( modeReg->checkBits(0x10) )
         return up;
@@ -275,7 +274,7 @@ void Timer::stop()
 //--------------------------------------------------------------
 void Timer::clearCountVal()
 {
-    HwRegister<uint32_t>* timerValReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x050 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* timerValReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x050 )) HwRegister<uint32_t>;
 
     timerValReg->insert( 0x00000000 );
 }
@@ -286,12 +285,12 @@ void Timer::clearCountVal()
 void Timer::setMode(const TimerMode& mode)
 {
     HwRegister<uint32_t>* modeReg;
-    HwRegister<uint8_t>* cfgReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x000 )) Hal::HwRegister<uint8_t>;
+    HwRegister<uint8_t>* cfgReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x000 )) HwRegister<uint8_t>;
 
     if( isConcat || (mSubInst == subTimerA))
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) HwRegister<uint32_t>;
     else // subtimer B
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) HwRegister<uint32_t>;
 
     // clearing the mode bits
     modeReg->clearBits(0x0003);
@@ -347,9 +346,9 @@ void Timer::setCountDir(const TimerCountDir& dir)
     HwRegister<uint32_t>* modeReg;
 
     if( isConcat || (mSubInst == subTimerA))
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x004 )) HwRegister<uint32_t>;
     else // subtimer B
-        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) Hal::HwRegister<uint32_t>;
+        modeReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x008 )) HwRegister<uint32_t>;
 
     if( dir == up )
     {
@@ -377,13 +376,13 @@ void Timer::setIntervalBorder(const uint32_t& border)
 
     if( isConcat )
     {
-        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x028 )) Hal::HwRegister<uint32_t>;
+        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x028 )) HwRegister<uint32_t>;
         interReg->insert(border);
     }
     else if( mSubInst == subTimerA )
     {
-        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x028 )) Hal::HwRegister<uint32_t>;
-        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x038 )) Hal::HwRegister<uint8_t>;
+        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x028 )) HwRegister<uint32_t>;
+        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x038 )) HwRegister<uint8_t>;
 
         if( this->getCountDirection() == up )
         {
@@ -402,8 +401,8 @@ void Timer::setIntervalBorder(const uint32_t& border)
     }
     else // subTimer B
     {
-        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x02C )) Hal::HwRegister<uint32_t>;
-        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x03C )) Hal::HwRegister<uint8_t>;
+        interReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x02C )) HwRegister<uint32_t>;
+        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x03C )) HwRegister<uint8_t>;
 
         if( this->getCountDirection() == up )
         {
@@ -432,13 +431,13 @@ void Timer::setMatchValue(const uint32_t& val)
 
     if( isConcat )
     {
-        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x030 )) Hal::HwRegister<uint32_t>;
+        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x030 )) HwRegister<uint32_t>;
         matchReg->insert(val);
     }
     else if( mSubInst == subTimerA )
     {
-        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x030 )) Hal::HwRegister<uint32_t>;
-        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x040 )) Hal::HwRegister<uint8_t>;
+        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x030 )) HwRegister<uint32_t>;
+        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x040 )) HwRegister<uint8_t>;
 
         if( this->getCountDirection() == up )
         {
@@ -457,8 +456,8 @@ void Timer::setMatchValue(const uint32_t& val)
     }
     else // subTimer B
     {
-        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x034 )) Hal::HwRegister<uint32_t>;
-        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x044 )) Hal::HwRegister<uint8_t>;
+        matchReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x034 )) HwRegister<uint32_t>;
+        prescReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x044 )) HwRegister<uint8_t>;
 
         if( this->getCountDirection() == up )
         {
@@ -482,7 +481,7 @@ void Timer::setMatchValue(const uint32_t& val)
 //--------------------------------------------------------------
 void Timer::setCaptureEv(const TimerCaptureEv& ev)
 {
-    ctrlReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x00C )) Hal::HwRegister<uint16_t>;
+    ctrlReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x00C )) HwRegister<uint16_t>;
 
     if( isConcat || mSubInst == subTimerB )
     {
@@ -505,7 +504,7 @@ void Timer::setModuleIr(const bool& on)
     {
         if( on )
         {
-            HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x024 )) Hal::HwRegister<uint16_t>;
+            HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x024 )) HwRegister<uint16_t>;
             irClearReg->clearBits( 0x3F3F );
             Nvic::enableIr( irInst[mInst][subTimerA] );
         }
@@ -526,7 +525,7 @@ void Timer::setModuleIr(const bool& on)
 //--------------------------------------------------------------
 void Timer::enableIr(const TimerEv& ev)
 {
-    HwRegister<uint16_t>* irMaskReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x018 )) Hal::HwRegister<uint16_t>;
+    HwRegister<uint16_t>* irMaskReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x018 )) HwRegister<uint16_t>;
 
     if( isConcat || (mSubInst == subTimerA) )
     {
@@ -543,7 +542,7 @@ void Timer::enableIr(const TimerEv& ev)
 //--------------------------------------------------------------
 void Timer::disableIr(const TimerEv& ev)
 {
-    HwRegister<uint16_t>* irMaskReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x018 )) Hal::HwRegister<uint16_t>;
+    HwRegister<uint16_t>* irMaskReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x018 )) HwRegister<uint16_t>;
 
     if( isConcat || (mSubInst == subTimerB) )
     {
@@ -618,8 +617,8 @@ void Timer::notify(const TimerEv& ev)
 void Timer::checkIrStatus( const TimerInstance& inst,
                            const SubTimerInstance& subInst  )
 {
-    HwRegister<uint16_t>* irStatReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x020 )) Hal::HwRegister<uint16_t>;
-    HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x024 )) Hal::HwRegister<uint16_t>;
+    HwRegister<uint16_t>* irStatReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x020 )) HwRegister<uint16_t>;
+    HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[inst] + 0x024 )) HwRegister<uint16_t>;
 
     if( instance[inst][subInst]->isConcatenated() ||
             (subInst == subTimerA) )

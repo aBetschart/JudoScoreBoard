@@ -9,7 +9,7 @@
 #define HAL_SPI_SPI_H_
 
 #include<stdint.h>
-#include "../HwRegister/HwRegister.h"
+#include "../../Register/HwRegister.h"
 
 class ISpiEvHandler;
 

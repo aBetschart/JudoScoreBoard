@@ -12,9 +12,6 @@
 
 #include "Register.h"
 
-namespace Hal
-{
-
 template<typename T>
 class SoftwareRegister: public Register<T>
 {
@@ -52,9 +49,5 @@ private:
     T regVal;
     std::string name;
 };
-
-
-
-} /* namespace Hal */
 
 #endif /* HAL_SOFTWAREREGISTER_H_ */

@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#include "../HwRegister/HwRegister.h"
+#include "../../Register/HwRegister.h"
 
 class IGpioEvHandler;
 

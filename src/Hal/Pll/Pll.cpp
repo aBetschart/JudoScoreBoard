@@ -9,7 +9,7 @@
 
 #include <new>
 
-#include "../HwRegister/HwRegister.h"
+#include "../../Register/HwRegister.h"
 #include "../Clk/Clk.h"
 
 namespace Hal
@@ -17,8 +17,8 @@ namespace Hal
 //--------------------------------------------------------------
 void Hal::Pll::enablePll()
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
-    HwRegister<uint32_t>* rsclkcfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsclkcfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
 
     pllF0Reg->setBits( 0x00800000 ); // power the PLL
     rsclkcfgReg->setBits( 0x50000000 ); // activate PLL-registers
@@ -29,8 +29,8 @@ void Hal::Pll::enablePll()
 //--------------------------------------------------------------
 void Hal::Pll::disablePll()
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
-    HwRegister<uint32_t>* rsclkcfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
+    HwRegister<uint32_t>* rsclkcfgReg = new (reinterpret_cast<void*>( 0x400FE0B0 )) HwRegister<uint32_t>;
 
     pllF0Reg->clearBits( 0x00800000 ); // power the PLL
     rsclkcfgReg->clearBits( 0x10000000 ); // activate PLL-registers
@@ -41,7 +41,7 @@ void Hal::Pll::disablePll()
 //--------------------------------------------------------------
 void Hal::Pll::setM(const uint8_t& val)
 {
-    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) HwRegister<uint32_t>;
 
     uint8_t shortVal = val & 0x1F; // M has just the size of five bits
 
@@ -54,7 +54,7 @@ void Hal::Pll::setM(const uint8_t& val)
 //--------------------------------------------------------------
 uint8_t Pll::getM()
 {
-    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) HwRegister<uint32_t>;
     uint32_t val = pllF1Reg->getVal();
 
     val &= 0x0000001F;
@@ -67,7 +67,7 @@ uint8_t Pll::getM()
 //--------------------------------------------------------------
 void Hal::Pll::setQ(const uint8_t& val)
 {
-    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) HwRegister<uint32_t>;
 
     uint8_t shortVal = val & 0x3F; // Q has just the size of six bits
 
@@ -80,7 +80,7 @@ void Hal::Pll::setQ(const uint8_t& val)
 //--------------------------------------------------------------
 uint8_t Pll::getQ()
 {
-    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) HwRegister<uint32_t>;
     uint32_t val = pllF1Reg->getVal();
 
     val = val >> 8;
@@ -94,7 +94,7 @@ uint8_t Pll::getQ()
 //--------------------------------------------------------------
 void Hal::Pll::setMint(const uint16_t& val)
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
 
     uint8_t shortVal = val & 0x03FF; // MINT has the size of 10 Bit
 
@@ -107,7 +107,7 @@ void Hal::Pll::setMint(const uint16_t& val)
 //--------------------------------------------------------------
 uint16_t Pll::getMint()
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
     uint32_t val = pllF0Reg->getVal();
 
     val &= 0x000003FF;
@@ -120,8 +120,8 @@ uint16_t Pll::getMint()
 //--------------------------------------------------------------
 void Hal::Pll::setMfrac(const uint16_t& val)
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
-    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF1Reg    = new (reinterpret_cast<void*>( 0x400FE164 )) HwRegister<uint32_t>;
 
     uint8_t shortVal = val & 0x03FF; // MINT has the size of 10 Bit
 
@@ -134,7 +134,7 @@ void Hal::Pll::setMfrac(const uint16_t& val)
 //--------------------------------------------------------------
 uint16_t Pll::getMfrac()
 {
-    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) Hal::HwRegister<uint32_t>;
+    HwRegister<uint32_t>* pllF0Reg    = new (reinterpret_cast<void*>( 0x400FE160 )) HwRegister<uint32_t>;
     uint32_t val = pllF0Reg->getVal();
 
     val = val >> 10;

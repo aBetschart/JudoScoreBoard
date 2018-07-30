@@ -8,9 +8,6 @@
 #ifndef HAL_REGISTER_H_
 #define HAL_REGISTER_H_
 
-namespace Hal
-{
-
 template<typename T>
 class Register
 {
@@ -23,8 +20,6 @@ public:
 
 private:
 };
-
-} /* namespace Hal */
 
 #endif /* HAL_REGISTER_H_ */
 
