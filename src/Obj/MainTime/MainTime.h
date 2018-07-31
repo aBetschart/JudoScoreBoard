@@ -37,6 +37,7 @@ public:
     enum
     {
         nrOfEvHandlers = 1,
+        hourInit = 0,
         minInit = 4,
         secInit = 0
     };

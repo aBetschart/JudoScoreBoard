@@ -25,7 +25,7 @@ namespace Obj
 //--------------------------------------------------------------
 MainTime::MainTime( JudoDisplay* displ ):
         mTimeTick( mTickInst ), mDir( down ),
-        mDispl( displ ), Time( minInit, secInit )
+        mDispl( displ ), Time( hourInit, minInit, secInit )
 {
     for( int i = 0 ; i < nrOfEvHandlers ; ++i )
         evHandler[i] = 0;
