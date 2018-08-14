@@ -4,20 +4,23 @@
  * Author: Aaron
  */
 
+#include <iomanip>
+
 #include "AddressAndNameParsing.h"
 
-std::string Register::AddressAndNameParsing::getNameFromAddress(	const int& address)
+enum {
+	addressLength = 8
+};
+
+std::string Register::AddressAndNameParsing::getNameFromAddress( const int& address )
 {
-	std::string resultName = "DefaultRegister";
+	int absoluteValue = abs( address );
 
-	return resultName;
+	std::stringstream stream;
+	stream << "0x"
+		   << std::setfill( '0' )
+		   << std::setw( addressLength )
+		   << std::hex << absoluteValue;
+
+	return stream.str();
 }
-
-int Register::AddressAndNameParsing::getAddressFromName( const std::string& registerName )
-{
-	int resultAddress = 0;
-
-	return resultAddress;
-}
-
-
