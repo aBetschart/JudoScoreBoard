@@ -8,6 +8,7 @@
 #define TESTING
 
 #include "gtest/gtest.h"
+#include "Register/RegisterAllocator.h"
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
