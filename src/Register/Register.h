@@ -15,6 +15,7 @@ template<typename T>
 class RegisterInterface
 {
 public:
+	virtual ~RegisterInterface(){}
     virtual void clearBits( const T& bits ) = 0;
     virtual void setBits( const T& bits ) = 0;
     virtual void insert( const T& bits ) = 0;
