@@ -14,8 +14,11 @@
 #include "RegisterValueReader.h"
 #include "RegisterActivityLogger.h"
 
+namespace Register
+{
+
 template<typename Type>
-class SoftwareRegister: public Register<Type>
+class SoftwareRegister: public RegisterInterface<Type>
 {
 public:
 	SoftwareRegister( const std::string& registerName, const Type& defaultValue = 0 );
@@ -35,28 +38,30 @@ private:
 	void updateLog();
 };
 
+} //Register
+
 template<typename Type>
-inline SoftwareRegister<Type>::SoftwareRegister( const std::string& registerName, const Type& defaultValue ):
+inline Register::SoftwareRegister<Type>::SoftwareRegister( const std::string& registerName, const Type& defaultValue ):
     activityLogger( registerName, defaultValue ), valueReader( registerName )
 {
 	regVal = valueReader.getActualValue();
 }
 
 template<typename Type>
-inline SoftwareRegister<Type>::~SoftwareRegister()
+inline Register::SoftwareRegister<Type>::~SoftwareRegister()
 {
 
 }
 
 template<typename Type>
-void inline SoftwareRegister<Type>::clearBits( const Type& bits )
+void inline Register::SoftwareRegister<Type>::clearBits( const Type& bits )
 {
 	regVal &= ~bits;
 	updateLog();
 }
 
 template<typename Type>
-void inline SoftwareRegister<Type>::setBits( const Type& bits )
+void inline Register::SoftwareRegister<Type>::setBits( const Type& bits )
 {
 	regVal |= bits;
 	updateLog();
@@ -64,7 +69,7 @@ void inline SoftwareRegister<Type>::setBits( const Type& bits )
 
 
 template<typename Type>
-void inline SoftwareRegister<Type>::insert( const Type& bits )
+void inline Register::SoftwareRegister<Type>::insert( const Type& bits )
 {
 	regVal = bits;
 	updateLog();
@@ -72,20 +77,20 @@ void inline SoftwareRegister<Type>::insert( const Type& bits )
 
 
 template<typename Type>
-bool inline SoftwareRegister<Type>::checkBits( const Type& bits ) const
+bool inline Register::SoftwareRegister<Type>::checkBits( const Type& bits ) const
 {
 	return( ( regVal & bits ) == bits );
 }
 
 
 template<typename Type>
-Type inline SoftwareRegister<Type>::getVal() const
+Type inline Register::SoftwareRegister<Type>::getVal() const
 {
 	return regVal;
 }
 
 template<typename Type>
-void SoftwareRegister<Type>::updateLog()
+void Register::SoftwareRegister<Type>::updateLog()
 {
 	activityLogger.logRegisterModification(regVal);
 }

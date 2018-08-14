@@ -9,6 +9,9 @@
 
 #include <string>
 
+namespace Register
+{
+
 namespace AddressAndNameParsing
 {
 
@@ -16,5 +19,7 @@ std::string getNameFromAddress( const int& address );
 int getAddressFromName( const std::string& registerName );
 
 } //RegisterAddressMapping
+
+} //Register
 
 #endif // TM4CREGISTERNAMEMAP_H_

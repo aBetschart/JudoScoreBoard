@@ -10,8 +10,11 @@
 
 #include "Register.h"
 
+namespace Register
+{
+
 template<typename T>
-class HwRegister: public Register<T>
+class HwRegister: public RegisterInterface<T>
 {
 public:
     virtual void clearBits( const T& bits ){ regVal &= ~bits; }
@@ -24,5 +27,7 @@ private:
     ~HwRegister(){};
     volatile T regVal;
 };
+
+} //Register
 
 #endif /* HAL_HWREGISTER_HWREGISTER_H_ */

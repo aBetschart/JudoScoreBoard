@@ -32,7 +32,7 @@ void Hal::Nvic::enableIr(const irInstance& nr)
     int bitNr = nr % 32;
     uint32_t bit = 0x000000001 << bitNr;
 
-    HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicEnRegAddr[regNr])) HwRegister<uint32_t>;
+    Register::HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicEnRegAddr[regNr])) Register::HwRegister<uint32_t>;
     reg->setBits(bit);
 }
 
@@ -42,6 +42,6 @@ void Hal::Nvic::disableIr(const irInstance& nr)
     int bitNr = nr % 32;
     uint32_t bit = 0x000000001 << bitNr;
 
-    HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicDisRegAddr[regNr])) HwRegister<uint32_t>;
+    Register::HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicDisRegAddr[regNr])) Register::HwRegister<uint32_t>;
     reg->setBits(bit);
 }

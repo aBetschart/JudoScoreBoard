@@ -18,11 +18,11 @@ class RegisterAddressAndNameParsingTest: public ::testing::Test
 TEST_F( RegisterAddressAndNameParsingTest, getAddressFromNameTest )
 {
 	int expectedAddress = 0x00000000;
-	ASSERT_EQ( expectedAddress, AddressAndNameParsing::getAddressFromName( "TestRegister" ) );
+	ASSERT_EQ( expectedAddress, Register::AddressAndNameParsing::getAddressFromName( "TestRegister" ) );
 }
 
 TEST_F( RegisterAddressAndNameParsingTest, getNameFromAddressTest )
 {
 	std::string expectedName = "DefaultRegister";
-	ASSERT_EQ( expectedName, AddressAndNameParsing::getNameFromAddress( 0x00000000 ) );
+	ASSERT_EQ( expectedName, Register::AddressAndNameParsing::getNameFromAddress( 0x00000000 ) );
 }

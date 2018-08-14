@@ -6,14 +6,14 @@
 
 #include "AddressAndNameParsing.h"
 
-std::string AddressAndNameParsing::getNameFromAddress(	const int& address)
+std::string Register::AddressAndNameParsing::getNameFromAddress(	const int& address)
 {
 	std::string resultName = "DefaultRegister";
 
 	return resultName;
 }
 
-int AddressAndNameParsing::getAddressFromName( const std::string& registerName )
+int Register::AddressAndNameParsing::getAddressFromName( const std::string& registerName )
 {
 	int resultAddress = 0;
 

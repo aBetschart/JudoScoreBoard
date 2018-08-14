@@ -89,10 +89,10 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     // enable QSSI-module at RCGC-module
     Rcgc::enaSsiModule( mInst );
 
-    dataReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0008)) HwRegister<uint16_t>;
-    HwRegister<uint16_t>* ctrlReg0    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0000)) HwRegister<uint16_t>;
-    ctrlReg1    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0004)) HwRegister<uint16_t>;
-    HwRegister<uint8_t>*  clkPrescReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0010)) HwRegister<uint8_t>;
+    dataReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0008)) Register::HwRegister<uint16_t>;
+    Register::HwRegister<uint16_t>* ctrlReg0    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0000)) Register::HwRegister<uint16_t>;
+    ctrlReg1    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0004)) Register::HwRegister<uint16_t>;
+    Register::HwRegister<uint8_t>*  clkPrescReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0010)) Register::HwRegister<uint8_t>;
 
     // initialize pins
     switch( mInst )
@@ -310,7 +310,7 @@ void Spi::setModuleIr(const bool& on)
 //--------------------------------------------------------------
 void Spi::enableIr(const SpiEv& ev)
 {
-    HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) Register::HwRegister<uint8_t>;
     irMaskReg->setBits( irBitMask[ev] );
 }
 //--------------------------------------------------------------
@@ -319,7 +319,7 @@ void Spi::enableIr(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::disableIr(const SpiEv& ev)
 {
-    HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) Register::HwRegister<uint8_t>;
     irMaskReg->clearBits( irBitMask[ev] );
 }
 //--------------------------------------------------------------
@@ -389,8 +389,8 @@ void Spi::notify(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::checkIrStatus(const SpiInstance& inst)
 {
-    HwRegister<uint8_t>* irStatReg  = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x001C)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* irClearReg = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x0020)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irStatReg  = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x001C)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irClearReg = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x0020)) Register::HwRegister<uint8_t>;
 
     if( instance[inst] != 0 )
     {

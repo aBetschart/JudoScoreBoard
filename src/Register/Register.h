@@ -8,8 +8,11 @@
 #ifndef HAL_REGISTER_H_
 #define HAL_REGISTER_H_
 
+namespace Register
+{
+
 template<typename T>
-class Register
+class RegisterInterface
 {
 public:
     virtual void clearBits( const T& bits ) = 0;
@@ -20,6 +23,8 @@ public:
 
 private:
 };
+
+} //Register
 
 #endif /* HAL_REGISTER_H_ */
 

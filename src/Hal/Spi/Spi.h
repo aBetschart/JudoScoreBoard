@@ -211,13 +211,13 @@ private:
     /**
      * Data register for reception and transmission
      */
-    HwRegister<uint16_t>* dataReg;
+    Register::HwRegister<uint16_t>* dataReg;
 
     /**
      * Control register that is used often (to enable/disable
      * the interface)
      */
-    HwRegister<uint16_t>* ctrlReg1;
+    Register::HwRegister<uint16_t>* ctrlReg1;
 
     SpiInstance mInst;  /**< Instance of the object */
     SpiDir      mDir;   /**< The direction of the interface */

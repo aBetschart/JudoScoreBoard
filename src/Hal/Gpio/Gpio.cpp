@@ -133,9 +133,9 @@ Gpio::Gpio( const GpioInit& init ): mPort( init.port ), mBit( 0x01 << init.nr )
     Rcgc::enaGpioPort( mPort );
 
     // mapping of the registers
-    dataReg     = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x03FC)) HwRegister<uint8_t>;
-    irMaskReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0410)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* dirReg      = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0400)) HwRegister<uint8_t>;
+    dataReg     = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x03FC)) Register::HwRegister<uint8_t>;
+    irMaskReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0410)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* dirReg      = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0400)) Register::HwRegister<uint8_t>;
 
     // direction setting
     if( init.dir == dirInput )
@@ -184,10 +184,10 @@ Gpio::~Gpio()
 //--------------------------------------------------------------
 void Gpio::setSpecialFunc(const GpioFunc& f)
 {
-    HwRegister<uint8_t>* afSelReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0420)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* denReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x051C)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* aenReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0528)) HwRegister<uint8_t>;
-    HwRegister<uint32_t>* ctlReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x052C)) HwRegister<uint32_t>;
+    Register::HwRegister<uint8_t>* afSelReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0420)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* denReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x051C)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* aenReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0528)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint32_t>* ctlReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x052C)) Register::HwRegister<uint32_t>;
 
     if( f != noSpecFunc ) // Special function requested
     {
@@ -230,7 +230,7 @@ void Gpio::setSpecialFunc(const GpioFunc& f)
 //--------------------------------------------------------------
 void Gpio::setDriveStrength(const GpioDrStr& str)
 {
-    HwRegister<uint8_t>* driveReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + str)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* driveReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + str)) Register::HwRegister<uint8_t>;
     driveReg->setBits(mBit);
 }
 //--------------------------------------------------------------
@@ -239,9 +239,9 @@ void Gpio::setDriveStrength(const GpioDrStr& str)
 //--------------------------------------------------------------
 void Gpio::setPinCfg(const GpioPinResistor& res, const bool& openDrain)
 {
-    HwRegister<uint8_t>* pullUpReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0510)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* pullDnReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0514)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* odSelReg    = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x050C)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* pullUpReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0510)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* pullDnReg   = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0514)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* odSelReg    = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x050C)) Register::HwRegister<uint8_t>;
 
     switch( res )
     {
@@ -269,7 +269,7 @@ void Gpio::setPinCfg(const GpioPinResistor& res, const bool& openDrain)
 //--------------------------------------------------------------
 void Gpio::setInterrupt(const bool& on)
 {
-    HwRegister<uint8_t>* irClearReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x041C)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irClearReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x041C)) Register::HwRegister<uint8_t>;
     irClearReg->setBits(mBit);
     if(on)
     {
@@ -287,9 +287,9 @@ void Gpio::setInterrupt(const bool& on)
 //--------------------------------------------------------------
 void Gpio::configIr(const GpioIrEv& ev)
 {
-    HwRegister<uint8_t>* bothEdgeReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0408)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* irEvReg     = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x040C)) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* irClearReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x041C)) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* bothEdgeReg = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x0408)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irEvReg     = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x040C)) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irClearReg  = new (reinterpret_cast<void*>(gpioBaseAddr[mPort] + 0x041C)) Register::HwRegister<uint8_t>;
 
     irClearReg->setBits(mBit);
     irMaskReg->setBits(mBit);
@@ -374,8 +374,8 @@ void Gpio::notify()
 //--------------------------------------------------------------
 void Gpio::checkIrStatus(const GpioPort& p)
 {
-    HwRegister<uint8_t>* irStatReg = new (reinterpret_cast<void*>( Hal::gpioBaseAddr[p] + 0x418 )) HwRegister<uint8_t>;
-    HwRegister<uint8_t>* irClearReg = new (reinterpret_cast<void*>( Hal::gpioBaseAddr[p] + 0x041C )) HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irStatReg = new (reinterpret_cast<void*>( Hal::gpioBaseAddr[p] + 0x418 )) Register::HwRegister<uint8_t>;
+    Register::HwRegister<uint8_t>* irClearReg = new (reinterpret_cast<void*>( Hal::gpioBaseAddr[p] + 0x041C )) Register::HwRegister<uint8_t>;
     uint8_t checkBit = 0x01;
     for( int i = 0 ; i < nrOfPins ; ++i )
     {

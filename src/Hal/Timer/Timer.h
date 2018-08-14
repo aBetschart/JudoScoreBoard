@@ -174,7 +174,7 @@ private:
     SubTimerInstance    mSubInst;
     TimerMode           mMode;
 
-    HwRegister<uint16_t>* ctrlReg;
+    Register::HwRegister<uint16_t>* ctrlReg;
 
     ITimerEvHandler* evHandler[nrOfEvHandlers];
 

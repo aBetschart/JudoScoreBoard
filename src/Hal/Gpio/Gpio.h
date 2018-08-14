@@ -237,8 +237,8 @@ private:
     uint8_t mBit; /**< pin number of the gpio */
     GpioPort mPort; /**< port, on which the gpio lays */
 
-    HwRegister<uint8_t>*  dataReg;     /**< data register */
-    HwRegister<uint8_t>*  irMaskReg;   /**< interrupt enabling/disabling */
+    Register::HwRegister<uint8_t>*  dataReg;     /**< data register */
+    Register::HwRegister<uint8_t>*  irMaskReg;   /**< interrupt enabling/disabling */
 
     IGpioEvHandler* evHandler[nrOfEvHandlers]; /**< registered call back classes */
 
