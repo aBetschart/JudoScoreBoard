@@ -28,7 +28,7 @@ public:
 
 	void logRegisterModification( Type newValue )
 	{
-		logFile << newValue << std::endl;
+		logFile << (int)newValue << std::endl;
 	}
 
 	virtual ~RegisterActivityLogger()

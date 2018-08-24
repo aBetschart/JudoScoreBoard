@@ -4,14 +4,28 @@
  */
 
 #include <stdint.h>
+#include <string>
 
 #include "gtest/gtest.h"
 #include "Register/SoftwareRegister.h"
+#include "Register/AddressAndNameParsing/AddressAndNameParsing.h"
 
 class SoftwareRegisterTest: public ::testing::Test
 {
 
 };
+
+TEST_F( SoftwareRegisterTest, namingTet )
+{
+	uint16_t defaultValue = 0x001A;
+	std::string registerName = Register::AddressAndNameParsing::getNameFromAddress( 0x00000000 );
+	Register::SoftwareRegister<uint16_t> *testedRegister = new Register::SoftwareRegister<uint16_t>( registerName, defaultValue );
+
+	std::string fileName = "logfiles/Reg0x00000000Log.txt";
+	std::ifstream file( fileName );
+
+	EXPECT_TRUE( file.is_open() );
+}
 
 TEST_F( SoftwareRegisterTest, defaultValueTest1 )
 {

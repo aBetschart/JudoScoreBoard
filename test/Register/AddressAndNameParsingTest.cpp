@@ -4,6 +4,7 @@
  */
 
 #include <string>
+#include <fstream>
 
 #include "gtest/gtest.h"
 #include "Register/AddressAndNameParsing/AddressAndNameParsing.h"

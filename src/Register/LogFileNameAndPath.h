@@ -10,7 +10,7 @@
 
 #include<string>
 
-const static std::string pathToLogFile = std::string("logfiles/");
+const static std::string pathToLogFile = std::string("logfiles/Reg");
 const static std::string logFileEnding = std::string("Log.txt");
 
 #endif /* REGISTER_LOGFILENAMEANDPATH_H_ */

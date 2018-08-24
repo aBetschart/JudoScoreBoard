@@ -17,6 +17,8 @@
 #include "SoftwareRegister.h"
 #include "AddressAndNameParsing/AddressAndNameParsing.h"
 
+#define TESTING
+
 namespace Register
 {
 
@@ -25,26 +27,17 @@ class RegisterAllocator
 {
 public:
     static RegisterInterface<Type>* allocateRegister(const int& address);
-
-private:
-    static std::string getRegisterNameFromAddress(const int& address);
 };
 
 template<typename Type>
 inline RegisterInterface<Type>* RegisterAllocator<Type>::allocateRegister(const int& address)
 {
 #ifdef TESTING
-    return new SoftwareRegister<Type>( getRegisterNameFromAddress( address ) );
+	std::string registerName = AddressAndNameParsing::getNameFromAddress( address );
+	return new SoftwareRegister<Type>( registerName );
 #else
-
+	return new (reinterpret_cast<void*>( address )) Register::HwRegister<Type>;
 #endif
-}
-
-template<typename Type>
-inline std::string RegisterAllocator<Type>::getRegisterNameFromAddress(
-		const int& address)
-{
-	return AddressAndNameParsing::getNameFromAddress( address );
 }
 
 } //Register

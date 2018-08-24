@@ -16,7 +16,6 @@ namespace AddressAndNameParsing
 {
 
 std::string getNameFromAddress( const int& address );
-int getAddressFromName( const std::string& registerName );
 
 } //RegisterAddressMapping
 

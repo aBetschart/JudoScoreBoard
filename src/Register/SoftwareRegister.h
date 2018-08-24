@@ -33,7 +33,6 @@ private:
 	RegisterActivityLogger<Type> activityLogger;
 	RegisterValueReader<Type> valueReader;
     Type regVal;
-    std::string name;
 
 	void updateLog();
 };
