@@ -23,7 +23,7 @@ const uint32_t gpioBaseAddr[Hal::Gpio::nrOfGpioPorts] =
 
 enum GpioRegisterOffset
 {
-	dataRegisterOffset 					= 0x0000,
+	dataRegisterOffset 					= 0x03FC,
 	directionRegisterOffset 			= 0x0400,
 	interruptSenseRegisterOffset 		= 0x0404,
 	interuptBothEdgesRegisterOffset 	= 0x0408,
@@ -34,7 +34,7 @@ enum GpioRegisterOffset
 	interruptClearRegisterOffset 		= 0x041C,
 	alternateFunctionSelRegisterOffset 	= 0x0420,
 	ma2DriveSelRegisterOffset 			= 0x0500,
-	ma4DriveSelegisterOffset 			= 0x0504,
+	ma4DriveSelRegisterOffset 			= 0x0504,
 	ma8DriveSelRegisterOffset 			= 0x0508,
 	openDrainSelRegisterOffset 			= 0x050C,
 	pullUpSelRegisterOffset 			= 0x0510,

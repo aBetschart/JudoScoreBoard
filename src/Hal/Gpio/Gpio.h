@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#include "../../Register/HwRegister.h"
+#include "../../Register/Register.h"
 
 class IGpioEvHandler;
 
@@ -217,8 +217,8 @@ private:
     uint8_t mBit;
     GpioPort mPort; /**< port, on which the gpio lays */
 
-    Register::HwRegister<uint8_t>*  dataReg;
-    Register::HwRegister<uint8_t>*  irMaskReg;
+    Register::RegisterInterface<uint8_t>*  dataReg;
+    Register::RegisterInterface<uint8_t>*  irMaskReg;
 
     IGpioEvHandler* evHandler[nrOfEvHandlers];
 
