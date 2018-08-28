@@ -8,8 +8,8 @@
 #include "Nvic.h"
 
 #include<stdint.h>
-#include<new>
-#include "../../Register/HwRegister.h"
+#include "../../Register/Register.h"
+#include "../../Register/RegisterAllocator.h"
 
 namespace Hal
 {
@@ -32,7 +32,7 @@ void Hal::Nvic::enableIr(const irInstance& nr)
     int bitNr = nr % 32;
     uint32_t bit = 0x000000001 << bitNr;
 
-    Register::HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicEnRegAddr[regNr])) Register::HwRegister<uint32_t>;
+    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicEnRegAddr[regNr] );
     reg->setBits(bit);
 }
 
@@ -42,6 +42,6 @@ void Hal::Nvic::disableIr(const irInstance& nr)
     int bitNr = nr % 32;
     uint32_t bit = 0x000000001 << bitNr;
 
-    Register::HwRegister<uint32_t>* reg = new (reinterpret_cast<void*>(nvicDisRegAddr[regNr])) Register::HwRegister<uint32_t>;
+    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicDisRegAddr[regNr] );
     reg->setBits(bit);
 }

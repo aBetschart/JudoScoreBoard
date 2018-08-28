@@ -10,26 +10,27 @@
 #include <new>
 #include <stdint.h>
 
-#include "../../Register/HwRegister.h"
+#include "../../Register/Register.h"
+#include "../../Register/RegisterAllocator.h"
 
 namespace Hal
 {
 
 void Rcgc::enaGpioPort(const Gpio::GpioPort& p)
 {
-	Register::HwRegister<uint16_t>* rcgcReg = new (reinterpret_cast<void*>(0x400FE608)) Register::HwRegister<uint16_t>;
+	Register::RegisterInterface<uint16_t>* rcgcReg = Register::RegisterAllocator<uint16_t>::allocateRegister( 0x400FE608 );
     rcgcReg->setBits( 0x01 << p );
 }
 
 void Rcgc::enaSsiModule(const Spi::SpiInstance& inst)
 {
-	Register::HwRegister<uint16_t>* rcgcReg = new (reinterpret_cast<void*>(0x400FE61C)) Register::HwRegister<uint16_t>;
+	Register::RegisterInterface<uint16_t>* rcgcReg = Register::RegisterAllocator<uint16_t>::allocateRegister( 0x400FE61C );
     rcgcReg->setBits( 0x1 << inst );
 }
 
 void Rcgc::enaTimerModule(const Hal::Timer::TimerInstance& inst)
 {
-	Register::HwRegister<uint16_t>* rcgcReg = new (reinterpret_cast<void*>(0x400FE604)) Register::HwRegister<uint16_t>;
+	Register::RegisterInterface<uint16_t>* rcgcReg = Register::RegisterAllocator<uint16_t>::allocateRegister( 0x400FE604 );
     rcgcReg->setBits(0x1 << inst);
 }
 

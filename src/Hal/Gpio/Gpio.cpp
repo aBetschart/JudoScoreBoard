@@ -204,7 +204,6 @@ void Gpio::setSpecialFunc(const GpioFunc& f)
             bitNr++;
         }
 
-
         uint8_t shiftVal = bitNr*4;
 
         afSelReg->setBits( mBit );
