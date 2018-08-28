@@ -117,10 +117,10 @@ static const Hal::Nvic::irInstance irInst[Hal::Gpio::nrOfGpioPorts] =
 };
 //--------------------------------------------------------------
 
-Gpio* Hal::Gpio::instance[Hal::Gpio::nrOfGpioPorts][Gpio::nrOfPins] = {0};
+Gpio* Hal::Gpio::instance[Gpio::nrOfGpioPorts][Gpio::nrOfPins] = {0};
 
 //--------------------------------------------------------------
-Gpio::Gpio( const GpioInit& init ): mPort( init.port ), mBit( 0x01 << init.nr )
+Gpio::Gpio( const GpioInit& init ): mBit( 0x01 << init.nr ), mPort( init.port )
 {
     assert( instance[init.port][init.nr] == 0 );
 
@@ -175,7 +175,6 @@ Gpio::~Gpio()
 	    mBit = mBit >> 1;
 	}
 
-	
     instance[mPort][mPin] = 0;
 }
 //--------------------------------------------------------------

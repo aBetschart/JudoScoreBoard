@@ -30,9 +30,6 @@ public:
         dirInput
     };
 
-    /**
-     * Port of the instantiated GPIO
-     */
     enum GpioPort
     {
         portA, portB, portC,
@@ -43,9 +40,6 @@ public:
         nrOfGpioPorts
     };
 
-    /**
-     * Pin number on the GPIO port
-     */
     enum GpioPinNr
     {
         pin0, pin1, pin2, pin3,
@@ -113,9 +107,7 @@ public:
     enum{ nrOfEvHandlers = 2 };
 
     /**
-     * @brief   Constructor
      * @param   init initialization struct with all necessary information
-     * @return  none
      * @see     struct GpioInit
      */
     Gpio( const GpioInit& init );
@@ -123,7 +115,6 @@ public:
     /**
      * @brief   Special constructor for modules (interfaces like SPI etc.)
      * @param   f   Special function setting
-     * @return  none
      * @see     enum GpioFunc
      */
     Gpio( const GpioPort& p, const GpioPinNr& pin, const GpioFunc& f );
@@ -133,7 +124,6 @@ public:
     /**
      * @brief   Sets the controlling element (peripherie) of the GPIO
      * @param   f The function or peripherie, that controls the GPIO
-     * @return  none
      * @see     enum GpioFunc
      */
     void setSpecialFunc( const GpioFunc& f );
@@ -141,7 +131,6 @@ public:
     /**
      * @brief   Sets the drive strength of the GPIO
      * @param   str  The activated drive strength
-     * @return  none
      * @see     enum GpioDrStr
      */
     void setDriveStrength( const GpioDrStr& str );
@@ -149,7 +138,6 @@ public:
     /**
      * @brief   Sets the output configuration (works just on outputs)
      * @param   res  Configuration of the output
-     * @return  none
      * @see     enum GpioPinResistor
      */
     void setPinCfg( const GpioPinResistor& res, const bool& openDrain );
@@ -157,14 +145,12 @@ public:
     /**
      * @brief   Enables or disables interrupts
      * @param   on  true enables, false disables interrupt
-     * @return  none
      */
     void setInterrupt( const bool& on );
 
     /**
      * @brief   Sets the ev, that triggers the interrupt
      * @param   ev Triggering ev, that is enabled
-     * @return  none
      * @see     enum GpioIrEv
      */
     void configIr( const GpioIrEv& ev );
@@ -172,13 +158,11 @@ public:
     /**
      * @brief   Registers ev handler on enabled interrupt
      * @param   handler Evhandler that wants to be registered
-     * @return  none
      */
     void registerOnEv( IGpioEvHandler* const handler );
 
     /**
      * @brief   returns whether the GPIO is high or low
-     * @param   none
      * @return  true if high, false if low
      */
     bool isSet() const;
@@ -186,7 +170,6 @@ public:
     /**
      * @brief   Sets the level of the GPIO output
      * @param   on  true -> high, false -> low
-     * @return  none
      */
     void set( const bool& on );
 
@@ -217,8 +200,6 @@ protected:
 
     /**
      * @brief   Notifies all registered handlers, that an interrupt ev occured
-     * @param   none
-     * @return  none
      */
     void notify();
 
@@ -226,7 +207,6 @@ protected:
      * @brief   checks interrupt status of port p, and calls the notify function
      *          of the pins, on which an interrupt occured
      * @param   p   The inspected port
-     * @return  none
      */
     static void checkIrStatus( const GpioPort& p );
 
@@ -234,15 +214,15 @@ private:
     Gpio( const Gpio& gpio ){} /**< no copies of gpio's are allowed */
 
     bool inp; /**< true if Gpio is an input, false if output */
-    uint8_t mBit; /**< pin number of the gpio */
+    uint8_t mBit;
     GpioPort mPort; /**< port, on which the gpio lays */
 
-    Register::HwRegister<uint8_t>*  dataReg;     /**< data register */
-    Register::HwRegister<uint8_t>*  irMaskReg;   /**< interrupt enabling/disabling */
+    Register::HwRegister<uint8_t>*  dataReg;
+    Register::HwRegister<uint8_t>*  irMaskReg;
 
-    IGpioEvHandler* evHandler[nrOfEvHandlers]; /**< registered call back classes */
+    IGpioEvHandler* evHandler[nrOfEvHandlers];
 
-    static Gpio* instance[nrOfGpioPorts][nrOfPins]; /**< each gpio registers himself */
+    static Gpio* instance[nrOfGpioPorts][nrOfPins];
 };
 
 } /* namespace Hal */
