@@ -15,7 +15,10 @@
 namespace Hal
 {
 
-void Nvic::enableIr(const InterruptInstance& nr)
+namespace Nvic
+{
+
+void enableIr(const InterruptInstance& nr)
 {
     int regNr = nr >> 5;
     int bitNr = nr % 32;
@@ -25,7 +28,7 @@ void Nvic::enableIr(const InterruptInstance& nr)
     reg->setBits(bit);
 }
 
-void Nvic::disableIr(const InterruptInstance& nr)
+void disableIr(const InterruptInstance& nr)
 {
     int regNr = nr >> 5;
     int bitNr = nr % 32;
@@ -34,5 +37,7 @@ void Nvic::disableIr(const InterruptInstance& nr)
     Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicDisableRegisterAddress[regNr] );
     reg->setBits(bit);
 }
+
+} //Namespace Nvic
 
 } /* namespace Hal */
