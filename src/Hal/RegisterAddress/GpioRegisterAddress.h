@@ -28,7 +28,7 @@ enum GpioRegisterOffset
 	dataRegisterOffset 					= 0x03FC,
 	directionRegisterOffset 			= 0x0400,
 	interruptSenseRegisterOffset 		= 0x0404,
-	interuptBothEdgesRegisterOffset 	= 0x0408,
+	interruptBothEdgesRegisterOffset 	= 0x0408,
 	interruptEventRegisterOffset 		= 0x040C,
 	interruptMaskRegisterOffset 		= 0x0410,
 	rawInterruptStatusRegisterOffset 	= 0x0414,

@@ -109,16 +109,18 @@ namespace Hal
 //--------------------------------------------------------------
 // -- variables
 //--------------------------------------------------------------
-static const Hal::Nvic::irInstance irInst[Hal::Gpio::nrOfGpioPorts] =
+static const Hal::Nvic::InterruptInstance interruptInstance[Hal::Gpio::nrOfGpioPorts] =
 {
- Nvic::gpioPortA, Nvic::gpioPortB, Nvic::gpioPortC, Nvic::gpioPortD,
- Nvic::gpioPortE, Nvic::gpioPortF, Nvic::gpioPortG, Nvic::gpioPortH,
- Nvic::gpioPortJ, Nvic::gpioPortK, Nvic::gpioPortL, Nvic::gpioPortM,
+ Nvic::gpioPortA, Nvic::gpioPortB, Nvic::gpioPortC,
+ Nvic::gpioPortD, Nvic::gpioPortE, Nvic::gpioPortF,
+ Nvic::gpioPortG, Nvic::gpioPortH, Nvic::gpioPortJ,
+ Nvic::gpioPortK, Nvic::gpioPortL, Nvic::gpioPortM,
  Nvic::gpioPortN, Nvic::gpioPortP, Nvic::gpioPortQ,
 };
-//--------------------------------------------------------------
 
 Gpio* Hal::Gpio::instance[Gpio::nrOfGpioPorts][Gpio::nrOfPins] = {0};
+//--------------------------------------------------------------
+
 
 //--------------------------------------------------------------
 Gpio::Gpio( const GpioInit& init ): mBit( 0x01 << init.nr ), mPort( init.port )
@@ -281,7 +283,7 @@ void Gpio::setInterrupt(const bool& on)
     if(on)
     {
         irMaskReg->setBits(mBit);
-        Hal::Nvic::enableIr( irInst[mPort] );
+        Hal::Nvic::enableIr( interruptInstance[mPort] );
     }
     else
     {
@@ -294,13 +296,16 @@ void Gpio::setInterrupt(const bool& on)
 //--------------------------------------------------------------
 void Gpio::configIr(const GpioIrEv& ev)
 {
-	int registerAddress = gpioBaseAddr[mPort] + interuptBothEdgesRegisterOffset;
+	int registerAddress = gpioBaseAddr[mPort] + interruptBothEdgesRegisterOffset;
     Register::RegisterInterface<uint8_t>* bothEdgeReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     registerAddress = gpioBaseAddr[mPort] + interruptEventRegisterOffset;
     Register::RegisterInterface<uint8_t>* irEvReg     = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     registerAddress = gpioBaseAddr[mPort] + interruptClearRegisterOffset;
     Register::RegisterInterface<uint8_t>* irClearReg  = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
+    registerAddress = gpioBaseAddr[mPort] + interruptSenseRegisterOffset;
+    Register::RegisterInterface<uint8_t>* irSenseReg  = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
+    irSenseReg->clearBits(mBit);
     irClearReg->setBits(mBit);
     irMaskReg->setBits(mBit);
     if( ev == evBothEdge )
