@@ -1,0 +1,17 @@
+/**
+ *
+ * Date: 31.07.18
+ * Name: Aaron
+ */
+
+#ifndef RCGCREGISTERADDRESS_H_
+#define RCGCREGISTERADDRESS_H_
+
+namespace Hal
+{
+	const int GPIO_RCGC_REGISTER_ADDRESS 	= 0x400FE608;
+	const int SSI_RCGC_REGISTER_ADDRESS 	= 0x400FE61C;
+	const int TIMER_RCGC_REGISTER_ADDRESS 	= 0x400FE604;
+};
+
+#endif //RCGCREGISTERADDRESS_H_
