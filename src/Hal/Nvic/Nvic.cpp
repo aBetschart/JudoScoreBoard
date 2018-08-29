@@ -10,38 +10,29 @@
 #include<stdint.h>
 #include "../../Register/Register.h"
 #include "../../Register/RegisterAllocator.h"
+#include "../RegisterAddress/NvicRegisterAddress.h"
 
 namespace Hal
 {
 
-static const uint32_t nvicEnRegAddr[] =
+void Nvic::enableIr(const InterruptInstance& nr)
 {
- 0xE000E100, 0xE000E104, 0xE000E108, 0xE000E10C
-};
+    int regNr = nr >> 5;
+    int bitNr = nr % 32;
+    uint32_t bit = 0x000000001 << bitNr;
 
-static const uint32_t nvicDisRegAddr[] =
+    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicEnableRegisterAddress[regNr] );
+    reg->setBits(bit);
+}
+
+void Nvic::disableIr(const InterruptInstance& nr)
 {
- 0xE000E180, 0xE000E184, 0xE000E188, 0xE000E18C
-};
+    int regNr = nr >> 5;
+    int bitNr = nr % 32;
+    uint32_t bit = 0x000000001 << bitNr;
+
+    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicDisableRegisterAddress[regNr] );
+    reg->setBits(bit);
+}
 
 } /* namespace Hal */
-
-void Hal::Nvic::enableIr(const InterruptInstance& nr)
-{
-    int regNr = nr >> 5;
-    int bitNr = nr % 32;
-    uint32_t bit = 0x000000001 << bitNr;
-
-    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicEnRegAddr[regNr] );
-    reg->setBits(bit);
-}
-
-void Hal::Nvic::disableIr(const InterruptInstance& nr)
-{
-    int regNr = nr >> 5;
-    int bitNr = nr % 32;
-    uint32_t bit = 0x000000001 << bitNr;
-
-    Register::RegisterInterface<uint32_t>* reg = Register::RegisterAllocator<uint32_t>::allocateRegister( nvicDisRegAddr[regNr] );
-    reg->setBits(bit);
-}
