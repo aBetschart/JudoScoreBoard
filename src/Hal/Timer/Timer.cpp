@@ -123,7 +123,7 @@ static const uint16_t irBitMask[Hal::Timer::nrOfTimerEv] =
  0x0001, 0x0002, 0x0008, 0x0010, 0x0020, 0x0040,
 };
 
-static const Hal::Nvic::irInstance irInst[Timer::nrOfTimers][Timer::nrOfSubTimers] =
+static const Hal::Nvic::InterruptInstance interruptInstance[Timer::nrOfTimers][Timer::nrOfSubTimers] =
 {
  {Nvic::timer0A, Nvic::timer0B},
  {Nvic::timer1A, Nvic::timer1B},
@@ -506,17 +506,17 @@ void Timer::setModuleIr(const bool& on)
         {
             Register::HwRegister<uint16_t>* irClearReg = new (reinterpret_cast<void*>( timerBaseAddr[mInst] + 0x024 )) Register::HwRegister<uint16_t>;
             irClearReg->clearBits( 0x3F3F );
-            Nvic::enableIr( irInst[mInst][subTimerA] );
+            Nvic::enableIr( interruptInstance[mInst][subTimerA] );
         }
         else
-            Nvic::disableIr( irInst[mInst][subTimerA] );
+            Nvic::disableIr( interruptInstance[mInst][subTimerA] );
     }
     else
     {
         if( on )
-            Nvic::enableIr( irInst[mInst][subTimerB] );
+            Nvic::enableIr( interruptInstance[mInst][subTimerB] );
         else
-            Nvic::disableIr( irInst[mInst][subTimerB] );
+            Nvic::disableIr( interruptInstance[mInst][subTimerB] );
     }
 }
 //--------------------------------------------------------------

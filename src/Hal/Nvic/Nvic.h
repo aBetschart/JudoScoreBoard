@@ -14,7 +14,7 @@ namespace Hal
 class Nvic
 {
 public:
-    enum irInstance
+    enum InterruptInstance
     {
         gpioPortA = 0,
         gpioPortB,
@@ -53,8 +53,8 @@ public:
         timer7B
     };
 
-    static void enableIr( const irInstance& nr );
-    static void disableIr( const irInstance& nr );
+    static void enableIr( const InterruptInstance& nr );
+    static void disableIr( const InterruptInstance& nr );
 };
 
 

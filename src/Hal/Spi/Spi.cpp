@@ -67,7 +67,7 @@ static const uint32_t spiBaseAddr[Spi::nrOfSpi] =
   0x4000B000
 };
 
-static const Hal::Nvic::irInstance irInst[Hal::Spi::nrOfSpi] =
+static const Hal::Nvic::InterruptInstance interruptInstance[Hal::Spi::nrOfSpi] =
 { Nvic::ssi0, Nvic::ssi1, Nvic::ssi2, Nvic::ssi3 };
 
 static const uint16_t irBitMask[Hal::Spi::nrOfSpiEvs] =
@@ -297,11 +297,11 @@ void Spi::setModuleIr(const bool& on)
 {
     if( on )
     {
-        Hal::Nvic::enableIr( irInst[mInst] );
+        Hal::Nvic::enableIr( interruptInstance[mInst] );
     }
     else
     {
-        Hal::Nvic::disableIr( irInst[mInst] );
+        Hal::Nvic::disableIr( interruptInstance[mInst] );
     }
 }
 //--------------------------------------------------------------

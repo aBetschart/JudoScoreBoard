@@ -26,7 +26,7 @@ static const uint32_t nvicDisRegAddr[] =
 
 } /* namespace Hal */
 
-void Hal::Nvic::enableIr(const irInstance& nr)
+void Hal::Nvic::enableIr(const InterruptInstance& nr)
 {
     int regNr = nr >> 5;
     int bitNr = nr % 32;
@@ -36,7 +36,7 @@ void Hal::Nvic::enableIr(const irInstance& nr)
     reg->setBits(bit);
 }
 
-void Hal::Nvic::disableIr(const irInstance& nr)
+void Hal::Nvic::disableIr(const InterruptInstance& nr)
 {
     int regNr = nr >> 5;
     int bitNr = nr % 32;
