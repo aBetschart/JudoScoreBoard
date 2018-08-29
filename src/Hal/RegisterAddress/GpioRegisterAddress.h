@@ -15,9 +15,11 @@ namespace Hal
 {
 
 const uint32_t gpioBaseAddr[Hal::Gpio::nrOfGpioPorts] =
-{
+{ //A			B			C			D			E
     0x40058000, 0x40059000, 0x4005A000, 0x4005B000, 0x4005C000,
+  //F			G			H			J			K
     0x4005D000, 0x4005E000, 0x4005F000, 0x40060000, 0x40061000,
+  //L			M			N			P			Q
     0x40062000, 0x40063000, 0x40064000, 0x40065000, 0x40066000
 };
 
