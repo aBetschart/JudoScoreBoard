@@ -20,8 +20,8 @@ public:
     virtual void clearBits( const T& bits ){ regVal &= ~bits; }
     virtual void setBits( const T& bits ){ regVal |= bits; }
     virtual void insert( const T& bits ){ regVal = bits; }
-    virtual bool checkBits( const T& bits ) const{ return ( (regVal & bits ) == bits ); }
-    virtual T getVal() const { return regVal; }
+    virtual bool checkBits( const T& bits ) { return ( (regVal & bits ) == bits ); }
+    virtual T getVal() { return regVal; }
 
 private:
     ~HwRegister(){};

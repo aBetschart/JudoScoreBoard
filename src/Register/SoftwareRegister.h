@@ -26,8 +26,8 @@ public:
 	virtual void clearBits( const Type& bits );
 	virtual void setBits( const Type& bits );
 	virtual void insert( const Type& bits );
-	virtual bool checkBits( const Type& bits ) const;
-	virtual Type getVal() const;
+	virtual bool checkBits( const Type& bits );
+	virtual Type getVal();
 
 private:
 	RegisterActivityLogger<Type> activityLogger;
@@ -35,15 +35,14 @@ private:
     Type regVal;
 
 	void updateLog();
+	void getLatestRegisterValue();
 };
 
 } //Register
 
 template<typename Type>
 inline Register::SoftwareRegister<Type>::SoftwareRegister( const std::string& registerName, const Type& defaultValue ):
-    activityLogger( registerName, defaultValue ), valueReader( registerName )
-{
-	regVal = valueReader.getActualValue();
+    activityLogger( registerName, defaultValue ), valueReader( registerName ), regVal( valueReader.getActualValue() ) {
 }
 
 template<typename Type>
@@ -76,15 +75,17 @@ void inline Register::SoftwareRegister<Type>::insert( const Type& bits )
 
 
 template<typename Type>
-bool inline Register::SoftwareRegister<Type>::checkBits( const Type& bits ) const
+bool inline Register::SoftwareRegister<Type>::checkBits( const Type& bits )
 {
+	getLatestRegisterValue();
 	return( ( regVal & bits ) == bits );
 }
 
 
 template<typename Type>
-Type inline Register::SoftwareRegister<Type>::getVal() const
+Type inline Register::SoftwareRegister<Type>::getVal()
 {
+	getLatestRegisterValue();
 	return regVal;
 }
 
@@ -92,6 +93,11 @@ template<typename Type>
 void Register::SoftwareRegister<Type>::updateLog()
 {
 	activityLogger.logRegisterModification(regVal);
+}
+
+template<typename Type>
+inline void Register::SoftwareRegister<Type>::getLatestRegisterValue() {
+	regVal = valueReader.getActualValue();
 }
 
 #endif /* HAL_SOFTWAREREGISTER_H_ */
