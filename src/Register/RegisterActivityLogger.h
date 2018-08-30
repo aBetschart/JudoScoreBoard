@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sys/stat.h>
 
 #include "LogFileNameAndPath.h"
 
@@ -21,9 +22,16 @@ public:
 	RegisterActivityLogger( const std::string& name, Type defaultValue = 0 ): registerName(name)
 	{
 		std::string logFilePathAndName = pathToLogFile + registerName + logFileEnding;
-		logFile = std::ofstream( logFilePathAndName );
-		printHeaderInLogFile();
-		logRegisterModification( defaultValue );
+		if( fileExists( logFilePathAndName ) )
+		{
+			logFile.open( logFilePathAndName, std::fstream::app );
+		}
+		else
+		{
+			logFile = std::ofstream( logFilePathAndName );
+			printHeaderInLogFile();
+			logRegisterModification( defaultValue );
+		}
 	}
 
 	void logRegisterModification( Type newValue )
@@ -39,6 +47,12 @@ public:
 private:
 	std::string registerName;
 	std::ofstream logFile;
+
+	bool fileExists( const std::string& filename )
+	{
+		std::ifstream checkedFile(filename);
+		return checkedFile.good();
+	}
 
 	void printHeaderInLogFile()
 	{
