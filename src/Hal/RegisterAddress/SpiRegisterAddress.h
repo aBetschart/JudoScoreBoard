@@ -11,6 +11,9 @@
 namespace Hal
 {
 
+namespace QssiAddress
+{
+
 static const uint32_t spiBaseAddr[Spi::nrOfSpi] = {
 		0x40008000, //spi0
 		0x40009000, //spi1
@@ -32,6 +35,8 @@ enum SpiRegisterOffset {
 	peripherialPropertiesRegisterOffset = 0xFC0,
 	clockConfigurationRegisterOffset 	= 0xFC8
 };
+
+} //namespace QssiAddress
 
 } //namespace Hal
 

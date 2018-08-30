@@ -84,12 +84,14 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     // enable QSSI-module at RCGC-module
     Rcgc::enaSsiModule( mInst );
 
-    dataReg  = Register::RegisterAllocator<uint16_t>::allocateRegister( spiBaseAddr[mInst] + dataRegisterOffset );
-    ctrlReg1 = Register::RegisterAllocator<uint16_t>::allocateRegister( spiBaseAddr[mInst] + control1RegisterOffset );
+    int registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::dataRegisterOffset;
+    dataReg  = Register::RegisterAllocator<uint16_t>::allocateRegister( registerAddress );
+    registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::dataRegisterOffset;
+    ctrlReg1 = Register::RegisterAllocator<uint16_t>::allocateRegister( registerAddress );
 
-    int registerAddress = spiBaseAddr[mInst] + control0RegisterOffset;
+    registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::control0RegisterOffset;
     Register::RegisterInterface<uint16_t>* ctrlReg0 = Register::RegisterAllocator<uint16_t>::allocateRegister( registerAddress );
-    registerAddress = spiBaseAddr[mInst] + clockPrescaleRegisterOffset;
+    registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::clockPrescaleRegisterOffset;
     Register::RegisterInterface<uint8_t>* clkPrescReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
     // initialize pins
@@ -301,7 +303,7 @@ void Spi::setModuleIr(const bool& on)
 //--------------------------------------------------------------
 void Spi::enableIr(const SpiEv& ev)
 {
-	int registerAddress = spiBaseAddr[mInst] + interruptMaskRegisterOffset;
+	int registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::interruptMaskRegisterOffset;
     Register::RegisterInterface<uint8_t>* irMaskReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     irMaskReg->setBits( irBitMask[ev] );
 }
@@ -311,7 +313,7 @@ void Spi::enableIr(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::disableIr(const SpiEv& ev)
 {
-	int registerAddress = spiBaseAddr[mInst] + interruptMaskRegisterOffset;
+	int registerAddress = QssiAddress::spiBaseAddr[mInst] + QssiAddress::interruptMaskRegisterOffset;
     Register::RegisterInterface<uint8_t>* irMaskReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     irMaskReg->clearBits( irBitMask[ev] );
 }
@@ -382,9 +384,9 @@ void Spi::notify(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::checkIrStatus(const SpiInstance& inst)
 {
-	int registerAddress = spiBaseAddr[inst] + maskedInterruptStatusRegisterOffset;
+	int registerAddress = QssiAddress::spiBaseAddr[inst] + QssiAddress::maskedInterruptStatusRegisterOffset;
     Register::RegisterInterface<uint8_t>* irStatReg  = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
-    registerAddress = spiBaseAddr[inst] + interruptClearRegisterOffset;
+    registerAddress = QssiAddress::spiBaseAddr[inst] + QssiAddress::interruptClearRegisterOffset;
     Register::RegisterInterface<uint8_t>* irClearReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
     if( instance[inst] != 0 )
