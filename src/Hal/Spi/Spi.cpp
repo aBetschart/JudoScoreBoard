@@ -7,6 +7,8 @@
 #include <cassert>
 #include <new>
 
+#include "../RegisterAddress/SpiRegisterAddress.h"
+#include "../../Register/RegisterAllocator.h"
 #include "../../EvHandler/ISpiEvHandler.h"
 #include "../Nvic/Nvic.h"
 #include "../Gpio/Gpio.h"
@@ -60,13 +62,6 @@ Spi* Spi::instance[nrOfSpi] = {0};
 //--------------------------------------------------------------
 // -- variables
 //--------------------------------------------------------------
-static const uint32_t spiBaseAddr[Spi::nrOfSpi] =
-{ 0x40008000,
-  0x40009000,
-  0x4000A000,
-  0x4000B000
-};
-
 static const Hal::Nvic::InterruptInstance interruptInstance[Hal::Spi::nrOfSpi] =
 { Nvic::ssi0, Nvic::ssi1, Nvic::ssi2, Nvic::ssi3 };
 
@@ -89,10 +84,13 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     // enable QSSI-module at RCGC-module
     Rcgc::enaSsiModule( mInst );
 
-    dataReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0008)) Register::HwRegister<uint16_t>;
-    Register::HwRegister<uint16_t>* ctrlReg0    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0000)) Register::HwRegister<uint16_t>;
-    ctrlReg1    = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0004)) Register::HwRegister<uint16_t>;
-    Register::HwRegister<uint8_t>*  clkPrescReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0010)) Register::HwRegister<uint8_t>;
+    dataReg  = Register::RegisterAllocator<uint16_t>::allocateRegister( spiBaseAddr[mInst] + dataRegisterOffset );
+    ctrlReg1 = Register::RegisterAllocator<uint16_t>::allocateRegister( spiBaseAddr[mInst] + control1RegisterOffset );
+
+    int registerAddress = spiBaseAddr[mInst] + control0RegisterOffset;
+    Register::RegisterInterface<uint16_t>* ctrlReg0 = Register::RegisterAllocator<uint16_t>::allocateRegister( registerAddress );
+    registerAddress = spiBaseAddr[mInst] + clockPrescaleRegisterOffset;
+    Register::RegisterInterface<uint8_t>* clkPrescReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
     // initialize pins
     switch( mInst )
@@ -200,9 +198,6 @@ Spi::Spi( const SpiInit& init ): mInst( init.inst ), mDir( init.direction )
     else
         ctrlReg1->clearBits(0x4);
 
-    // disable hold frame (pulse fss after every byte
-    //ctrlReg1->setBits( 0x0400 );
-
     // setting the prescaler-value
     clkPrescReg->clearBits(0xFF);
     clkPrescReg->setBits(init.cpsvdr);
@@ -281,13 +276,9 @@ uint16_t Spi::getMsg()
 void Spi::setModule(const bool& on)
 {
     if(on)
-    {
         ctrlReg1->setBits(0x2); // enable module
-    }
     else
-    {
         ctrlReg1->clearBits(0x2); // disable module
-    }
 }
 //--------------------------------------------------------------
 
@@ -310,7 +301,8 @@ void Spi::setModuleIr(const bool& on)
 //--------------------------------------------------------------
 void Spi::enableIr(const SpiEv& ev)
 {
-    Register::HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) Register::HwRegister<uint8_t>;
+	int registerAddress = spiBaseAddr[mInst] + interruptMaskRegisterOffset;
+    Register::RegisterInterface<uint8_t>* irMaskReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     irMaskReg->setBits( irBitMask[ev] );
 }
 //--------------------------------------------------------------
@@ -319,7 +311,8 @@ void Spi::enableIr(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::disableIr(const SpiEv& ev)
 {
-    Register::HwRegister<uint8_t>* irMaskReg = new (reinterpret_cast<void*>(spiBaseAddr[mInst] + 0x0014)) Register::HwRegister<uint8_t>;
+	int registerAddress = spiBaseAddr[mInst] + interruptMaskRegisterOffset;
+    Register::RegisterInterface<uint8_t>* irMaskReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
     irMaskReg->clearBits( irBitMask[ev] );
 }
 //--------------------------------------------------------------
@@ -389,8 +382,10 @@ void Spi::notify(const SpiEv& ev)
 //--------------------------------------------------------------
 void Spi::checkIrStatus(const SpiInstance& inst)
 {
-    Register::HwRegister<uint8_t>* irStatReg  = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x001C)) Register::HwRegister<uint8_t>;
-    Register::HwRegister<uint8_t>* irClearReg = new (reinterpret_cast<void*>(spiBaseAddr[inst] + 0x0020)) Register::HwRegister<uint8_t>;
+	int registerAddress = spiBaseAddr[inst] + maskedInterruptStatusRegisterOffset;
+    Register::RegisterInterface<uint8_t>* irStatReg  = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
+    registerAddress = spiBaseAddr[inst] + interruptClearRegisterOffset;
+    Register::RegisterInterface<uint8_t>* irClearReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
     if( instance[inst] != 0 )
     {
