@@ -20,6 +20,8 @@
 int getRegisterValueFromAddress( const int& registerAddress );
 void checkSetBitsInValue( const int& value, const int& bits );
 void checkNotSetBitsInValue( const int& value, const int& bits );
+void setInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio );
+void clearInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio );
 
 class GpioTest: public ::testing::Test
 {
@@ -28,6 +30,7 @@ class GpioTest: public ::testing::Test
 
 class GpioEvHandlerTest: public IGpioEvHandler
 {
+public:
 	virtual ~GpioEvHandlerTest(){}
 	virtual void onGpioEv( const Hal::Gpio& gpio ){}
 };
@@ -592,10 +595,9 @@ TEST_F(GpioTest, isGpioSetFalseTest) {
 	EXPECT_FALSE( testedGpio.isSet() );
 }
 
-TEST_F(GpioTest, evHandlerRegisteredAndCalled) {
+TEST_F(GpioTest, evHandlerRegisteredAndCalled1) {
 	MockRepository mocks;
 	GpioEvHandlerTest* evHandlerMock = mocks.Mock<GpioEvHandlerTest>();
-//	mocks.ExpectCall( evHandlerMock, onGpioEvent );
 
 	Hal::Gpio::GpioInit init = {
 			.dir = Hal::Gpio::dirInput,
@@ -605,10 +607,89 @@ TEST_F(GpioTest, evHandlerRegisteredAndCalled) {
 			.openDrain = false
 	};
 	Hal::Gpio testedGpio( init );
-	testedGpio.registerOnEv( evHandlerMock );
-
 	testedGpio.setInterrupt( true );
+	setInterruptStatusOfGpio( init.port, init.nr );
 
+	testedGpio.registerOnEv( evHandlerMock );
+	mocks.ExpectCall( evHandlerMock, GpioEvHandlerTest::onGpioEv );
+	Hal::Gpio::gpioCallBackPortC();
+}
+
+
+TEST_F(GpioTest, evHandlerRegisteredAndCalled2) {
+	MockRepository mocks;
+	GpioEvHandlerTest* evHandlerMock = mocks.Mock<GpioEvHandlerTest>();
+
+	Hal::Gpio::GpioInit init = {
+			.dir = Hal::Gpio::dirInput,
+			.port = Hal::Gpio::portJ,
+			.nr = Hal::Gpio::pin7,
+			.outCfg = Hal::Gpio::noResistor,
+			.openDrain = false
+	};
+	Hal::Gpio testedGpio( init );
+	testedGpio.setInterrupt( true );
+	setInterruptStatusOfGpio( init.port, init.nr );
+
+	testedGpio.registerOnEv( evHandlerMock );
+	mocks.ExpectCall( evHandlerMock, GpioEvHandlerTest::onGpioEv );
+	Hal::Gpio::gpioCallBackPortJ();
+}
+
+
+TEST_F(GpioTest, noInterruptIfOtherPortIsChecked) {
+	MockRepository mocks;
+	GpioEvHandlerTest* evHandlerMock = mocks.Mock<GpioEvHandlerTest>();
+
+	Hal::Gpio::GpioInit init = {
+			.dir = Hal::Gpio::dirInput,
+			.port = Hal::Gpio::portE,
+			.nr = Hal::Gpio::pin6,
+			.outCfg = Hal::Gpio::noResistor,
+			.openDrain = false
+	};
+	Hal::Gpio testedGpio( init );
+	testedGpio.setInterrupt( true );
+	setInterruptStatusOfGpio( init.port, init.nr );
+
+	testedGpio.registerOnEv( evHandlerMock );
+	mocks.NeverCall( evHandlerMock, GpioEvHandlerTest::onGpioEv );
+	Hal::Gpio::gpioCallBackPortJ();
+}
+
+
+TEST_F(GpioTest, noInterruptIfFlagIsClearedTest) {
+	MockRepository mocks;
+	GpioEvHandlerTest* evHandlerMock = mocks.Mock<GpioEvHandlerTest>();
+
+	Hal::Gpio::GpioInit init = {
+			.dir = Hal::Gpio::dirInput,
+			.port = Hal::Gpio::portE,
+			.nr = Hal::Gpio::pin6,
+			.outCfg = Hal::Gpio::noResistor,
+			.openDrain = false
+	};
+	Hal::Gpio testedGpio( init );
+	testedGpio.setInterrupt( true );
+	clearInterruptStatusOfGpio( init.port, init.nr );
+
+	testedGpio.registerOnEv( evHandlerMock );
+	mocks.NeverCall( evHandlerMock, GpioEvHandlerTest::onGpioEv );
+	Hal::Gpio::gpioCallBackPortE();
+}
+
+
+void setInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio ) {
+	std::string registerName = Register::AddressAndNameParsing::getNameFromAddress(Hal::gpioBaseAddr[portOfGpio] + Hal::maskedInterruptStatusRegisterOffset);
+	Register::SoftwareRegister<uint8_t> interruptRegisterOfGpio( registerName );
+	interruptRegisterOfGpio.setBits( 0x01 << pinNrOfGpio );
+}
+
+
+void clearInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio ) {
+	std::string registerName = Register::AddressAndNameParsing::getNameFromAddress(Hal::gpioBaseAddr[portOfGpio] + Hal::maskedInterruptStatusRegisterOffset);
+	Register::SoftwareRegister<uint8_t> interruptRegisterOfGpio( registerName );
+	interruptRegisterOfGpio.clearBits( 0x01 << pinNrOfGpio );
 }
 
 
