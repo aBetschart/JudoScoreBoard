@@ -114,3 +114,20 @@ TEST_F( RegisterActivityLoggerTest, rightValueInFileTest5 )
 
 	ASSERT_EQ( newValue, getLastLineWrittenToFile( checkedLogFile ) );
 }
+
+
+TEST_F( RegisterActivityLoggerTest, overwriteTest )
+{
+	std::string registerName = "OverwriteTest";
+	RegisterActivityLogger<uint32_t>* firstActivityLogger;
+	RegisterActivityLogger<uint32_t>* secondActivityLogger;
+
+	uint32_t value = 0x324;
+
+	firstActivityLogger = new RegisterActivityLogger<uint32_t>( registerName );
+	firstActivityLogger->logRegisterModification( value );
+	secondActivityLogger = new RegisterActivityLogger<uint32_t>( registerName );
+
+	std::ifstream checkedLogFile( pathToLogFile + registerName + logFileEnding );
+	ASSERT_EQ( (int)value, getLastLineWrittenToFile( checkedLogFile ) );
+}
