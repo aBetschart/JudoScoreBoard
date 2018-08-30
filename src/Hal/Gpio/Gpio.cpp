@@ -261,6 +261,11 @@ void Gpio::setPinCfg(const GpioPinResistor& res, const bool& openDrain)
         pullDnReg->setBits(mBit);
         break;
 
+    case noResistor:
+    	pullUpReg->clearBits(mBit);
+    	pullDnReg->clearBits(mBit);
+    	break;
+
     default:
         break;
     }
@@ -389,9 +394,9 @@ void Gpio::notify()
 //--------------------------------------------------------------
 void Gpio::checkIrStatus(const GpioPort& p)
 {
-	int registerAddress = Hal::gpioBaseAddr[p] + 0x418;
+	int registerAddress = Hal::gpioBaseAddr[p] + maskedInterruptStatusRegisterOffset;
 	Register::RegisterInterface<uint8_t>* irStatReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
-	registerAddress = Hal::gpioBaseAddr[p] + 0x41C;
+	registerAddress = Hal::gpioBaseAddr[p] + interruptClearRegisterOffset;
 	Register::RegisterInterface<uint8_t>* irClearReg = Register::RegisterAllocator<uint8_t>::allocateRegister( registerAddress );
 
     uint8_t checkBit = 0x01;
