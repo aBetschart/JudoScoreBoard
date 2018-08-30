@@ -12,14 +12,11 @@
 #include "Hal/Nvic/Nvic.h"
 #include "Hal/RegisterAddress/GpioRegisterAddress.h"
 #include "Hal/RegisterAddress/RcgcRegisterAddress.h"
-#include "Register/SoftwareRegister.h"
-#include "Register/RegisterValueReader.h"
 #include "Register/AddressAndNameParsing/AddressAndNameParsing.h"
+#include "Register/SoftwareRegister.h"
 #include "EvHandler/IGpioEvHandler.h"
+#include "../SupportFunctions/SupportFunctions.h"
 
-int getRegisterValueFromAddress( const int& registerAddress );
-void checkSetBitsInValue( const int& value, const int& bits );
-void checkNotSetBitsInValue( const int& value, const int& bits );
 void setInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio );
 void clearInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Hal::Gpio::GpioPinNr& pinNrOfGpio );
 
@@ -690,22 +687,4 @@ void clearInterruptStatusOfGpio( const Hal::Gpio::GpioPort& portOfGpio, const Ha
 	std::string registerName = Register::AddressAndNameParsing::getNameFromAddress(Hal::gpioBaseAddr[portOfGpio] + Hal::maskedInterruptStatusRegisterOffset);
 	Register::SoftwareRegister<uint8_t> interruptRegisterOfGpio( registerName );
 	interruptRegisterOfGpio.clearBits( 0x01 << pinNrOfGpio );
-}
-
-
-int getRegisterValueFromAddress( const int& registerAddress ) {
-	std::string registerName =	Register::AddressAndNameParsing::getNameFromAddress(registerAddress);
-	RegisterValueReader<uint32_t> reader(registerName);
-
-	return reader.getActualValue();
-}
-
-
-void checkSetBitsInValue( const int& value, const int& bits ) {
-	ASSERT_TRUE( (value & bits) == bits );
-}
-
-
-void checkNotSetBitsInValue( const int& value, const int& bits ) {
-	ASSERT_TRUE( (~value & bits) == bits );
 }
