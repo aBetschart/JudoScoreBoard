@@ -20,7 +20,7 @@ struct SpiPinAssignment
 
 static const SpiPinAssignment clockPin[Hal::Spi::nrOfSpi] = {
 		{ Hal::Gpio::portA, Hal::Gpio::pin2, Hal::Gpio::dig15 },
-		{ Hal::Gpio::portA, Hal::Gpio::pin2, Hal::Gpio::dig15 },
+		{ Hal::Gpio::portA, Hal::Gpio::pin3, Hal::Gpio::dig15 },
 		{ Hal::Gpio::portA, Hal::Gpio::pin2, Hal::Gpio::dig15 },
 		{ Hal::Gpio::portA, Hal::Gpio::pin2, Hal::Gpio::dig15 }
 };
